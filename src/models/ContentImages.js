@@ -12,6 +12,10 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsTo(models.Articles,{
         targetKey:"articleId",
         foreignKey:"articleId"
+      }),
+      this.hasMany(models.Tags,{
+        sourceKey:"ContentImageId",
+        foreignKey:"ContentImageId"
       })
     }
   }

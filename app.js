@@ -1,7 +1,9 @@
 const express = require('express')
+const dotenv = require('dotenv')
+dotenv.config()
 const app = express()
 
-const routes = require('./routes')
+const routes = require('./src/routes/index.route')
 
 app.use(express.json());
 app.use('/api', routes);
