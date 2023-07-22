@@ -6,9 +6,9 @@ const itemRouter = require('./item.route');
 // const collectionRouter = require('./collection.route')
 
 // Article 관련
-router.use('/api', articleRouter);
+router.use('/', articleRouter);
 // // Item 관련
-router.use('/api', itemRouter);
+router.use('/', itemRouter);
 // // Collection 관련
 // router.use('/api', collectionRouter)
 
