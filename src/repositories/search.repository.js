@@ -18,6 +18,7 @@ class SearchRepository {
           [Op.like]: `%${query}%`,
         },
       },
+      limit: 6,
       raw: true,
     });
 
@@ -29,6 +30,7 @@ class SearchRepository {
           [Op.like]: `%${query}%`,
         },
       },
+      limit: 6,
       //   raw: true,
     });
 
