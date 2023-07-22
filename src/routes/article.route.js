@@ -5,7 +5,7 @@ const ArticleController = require('../controllers/article.controller');
 const articleController = new ArticleController();
 
 // Article 전체 조회 (추가예정)
-router.get('/');
+router.get('/', articleController.findAllArticle);
 // Article 작성
 router.post('/', articleController.createArticle);
 // Article 하나 보기

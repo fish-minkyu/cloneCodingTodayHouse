@@ -1,4 +1,4 @@
-const { Articles } = require('../models');
+const { Articles, Users } = require('../models');
 const { Op } = require('sequelize');
 
 // createArticle findArticle updateArticle deleteArticle
@@ -30,6 +30,23 @@ class ArticlesRepository {
     const article = await Articles.findOne({ where: { articleId } });
 
     return article;
+  };
+
+  findAllArticle = async (whereConditions, orderCondition) => {
+    const allArticle = await this.findAllArticle({
+      attributes: ['articleId', 'title'],
+      includes: [
+        {
+          model: Users,
+          attributes: ['nickname'],
+        },
+      ],
+      where: whereConditions,
+      order: orderCondition,
+      raw: true,
+    });
+
+    return allArticle;
   };
 
   updateArticle = async (
