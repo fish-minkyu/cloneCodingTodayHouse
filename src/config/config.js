@@ -1,4 +1,5 @@
-require('dotenv').config();
+const dotenv = require('dotenv');
+dotenv.config();
 
 const development = {
   username: process.env.MYSQL_AWS_USERNAME,

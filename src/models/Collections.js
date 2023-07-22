@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       this.belongsTo(models.Users, {
         foreignKey: 'userId',
-        targetKey: 'UserId',
+        targetKey: 'userId',
         onDelete: 'CASCAED',
         onUpdate: 'CASCAED',
       });
@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         type: DataTypes.INTEGER,
       },
-      UserId: {
+      userId: {
         allowNull: false,
         primaryKey: true,
         type: DataTypes.INTEGER,
