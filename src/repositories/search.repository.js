@@ -31,7 +31,6 @@ class SearchRepository {
         },
       },
       limit: 6,
-      //   raw: true,
     });
 
     // API 명세서에 맞게 객체에 담아서 반환

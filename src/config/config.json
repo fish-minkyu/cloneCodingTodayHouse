@@ -2,7 +2,7 @@
   "development": {
     "username": "root",
     "password": "4321aaaa",
-    "database": "Lv5",
+    "database": "clonehouse",
     "host": "express-database.cncayjm3edkr.ap-northeast-2.rds.amazonaws.com",
     "dialect": "mysql"
   },
