@@ -1,4 +1,4 @@
-const ItemsRepository = require('../repositories/article.repository');
+const ItemsRepository = require('../repositories/item.repository');
 const { Op } = require('sequelize');
 
 class ItemsService {
@@ -11,29 +11,24 @@ class ItemsService {
     return items;
   };
 
-  // // item 리스트조회(category)
-  // findItemsByCategory = async (category) => {
-  //   const findItemsByCategoryData = await this.itemsRepository.findItemsByCategory(category);
-
-  //   return findItemsByCategoryData;
-  // };
-
   //* query or category 를 이용한 item 검색(무한 스크롤 적용)
-  findItemsByCategoryOrQuery = async (query) => {
+  findItemsByCategoryOrQuery = async (query, page) => {
     // 카테고리만 입력 된 경우
-    let queryCondition = {};
     if (query.category || !query.query) {
-      queryCondition.category = { query };
+      console.log(query.category);
+      query.category = Number(query.category);
       const categorySearchedData =
-        await this.itemsRepository.findItemsByCategoryOrQuery(queryCondition);
+        await this.itemsRepository.findItemsByCategory(query.category, page);
       return categorySearchedData;
 
       // 쿼리만 입력 된 경우
     } else if (!query.category || query.query) {
-      queryCondition.itemname = { [Op.like]: `%${query}%` };
-      const querySearchedData =
-        await this.itemsRepository.findItemsByCategoryOrQuery(queryCondition);
+      const querySearchedData = await this.itemsRepository.findItemsByQuery(
+        query.query
+      );
       return querySearchedData;
+    } else if (!query.query && !query.category) {
+      return;
     }
   };
 

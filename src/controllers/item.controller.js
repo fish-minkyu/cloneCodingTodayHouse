@@ -6,7 +6,7 @@ class ItemsController {
   // item 전체 조회
   findItems = async (req, res, next) => {
     try {
-      const items = await itemsService.findItems();
+      const items = await this.itemsService.findItems();
       res.status(200).json(items);
     } catch (error) {
       next(error);
@@ -27,8 +27,11 @@ class ItemsController {
   // query or category 를 이용한 item 검색
   findItemsByCategoryOrQuery = async (req, res, next) => {
     try {
-      const query = req.query;
-      const items = await itemsService.findItemsByCategoryOrQuery(query);
+      const { query, page } = req.query;
+      const items = await this.itemsService.findItemsByCategoryOrQuery(
+        query,
+        page
+      );
       res.status(200).json({ items });
     } catch (error) {
       next(error);
@@ -39,7 +42,7 @@ class ItemsController {
   findItemByItemId = async (req, res, next) => {
     try {
       const { itemId } = req.params;
-      const item = await itemsService.findItemByItemId(itemId);
+      const item = await this.itemsService.findItemByItemId(itemId);
       res.status(200).json(item);
     } catch (error) {
       next(error);

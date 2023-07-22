@@ -10,7 +10,7 @@ const homeRouter = require('./home.route');
 router.use('/home', homeRouter);
 router.use('/api', articleRouter);
 // // Item 관련
-router.use('/api', itemRouter);
+router.use('/', itemRouter);
 // // Collection 관련
 // router.use('/api', collectionRouter)
 
