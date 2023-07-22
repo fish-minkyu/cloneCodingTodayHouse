@@ -49,6 +49,7 @@ class ArticlesRepository {
     return allArticle;
   };
 
+  // item 검색
   findArticleItem = async (itemName) => {
     const allArticleItem = await Articles.findAll({
       attributes: ['itemname', 'brand', 'coverImage'],

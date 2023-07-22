@@ -49,6 +49,7 @@ class ArticlesController {
     }
   };
 
+  // item 검색
   findArticleItem = async (req, res, next) => {
     try {
       const itemName = req.body;
