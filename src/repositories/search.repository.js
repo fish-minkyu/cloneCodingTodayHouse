@@ -6,7 +6,7 @@ class SearchRepository {
   totalSearchData = async (query) => {
     // Articles 테이블에서 쿼리값과 유사하게 일치하는 title 들을 전부 반환
     const articles = await Articles.findAll({
-      attributes: ['articleId', 'title', 'nickname'],
+      attributes: ['articleId', 'coverImage', 'title', 'nickname'],
       include: [
         {
           model: Users,
@@ -24,7 +24,7 @@ class SearchRepository {
 
     // Items 테이블에서 쿼리값과 유사하게 일치하는 itemname 들을 전부 반환
     const items = await Items.findAll({
-      attributes: ['itemId', 'itemname', 'price'],
+      attributes: ['itemId', 'coverImage', 'itemname', 'price'],
       where: {
         itemname: {
           [Op.like]: `%${query}%`,

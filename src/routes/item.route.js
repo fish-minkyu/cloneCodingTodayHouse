@@ -15,7 +15,6 @@ router.get('/item/:itemId', itemsController.findItemByItemId);
 // 테스트용 POST 라우터 작성
 router.post('/item/category', async (req, res) => {
   try {
-    console.log('hi');
     const { category, coverImage, brand, content, itemName, price } = req.body;
     await Items.create({
       category,

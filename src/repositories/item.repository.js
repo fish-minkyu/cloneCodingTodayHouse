@@ -14,12 +14,11 @@ class ItemsRepository {
 
   // 카테고리로 상품 검색(무한 스크롤 적용)
   findItemsByCategory = async (query, page) => {
-    // console.log(query);
     const limit = 12;
     const offset = (page - 1) * limit;
     const itemList = await Items.findAll({
       where: { category: query },
-      attributes: ['itemId', 'itemName', 'price'],
+      attributes: ['itemId', 'itemName', 'coverImage', 'price'],
       limit: limit,
       offset: offset,
     });
@@ -30,7 +29,7 @@ class ItemsRepository {
   // 사용자 쿼리로 상품 검색
   findItemsByQuery = async (query) => {
     const itemList = await Items.findAll({
-      attributes: ['itemId', 'itemname', 'price'],
+      attributes: ['itemId', 'itemname', 'coverImage', 'price'],
       where: {
         itemname: {
           [Op.like]: `%${query}%`,
