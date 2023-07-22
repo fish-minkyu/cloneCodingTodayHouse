@@ -33,6 +33,7 @@ class ArticlesRepository {
   };
 
   updateArticle = async (
+    articleId,
     userId,
     title,
     coverimage,
