@@ -1,5 +1,5 @@
-"use strict";
-const { Model } = require("sequelize");
+'use strict';
+const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Users extends Model {
     /**
@@ -8,44 +8,50 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      this.hasMany(models.Articles, {
+        sourceKey: 'userId',
+        foreignKey: 'UserId',
+      });
+      this.hasMany(models.Collections, {
+        sourceKey: 'userId',
+        foreignKey: 'UserId',
+      });
     }
   }
   Users.init(
     {
       userId: {
-        allowNull: false, // NOT NULL
-        autoIncrement: true, // AUTO_INCREMENT
-        primaryKey: true, // Primary Key (기본키)
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
         type: DataTypes.INTEGER,
       },
       email: {
-        allowNull: false, // NOT NULL
+        allowNull: false,
         type: DataTypes.STRING,
-        unique: true,
       },
       password: {
-        allowNull: false, // NOT NULL
+        allowNull: false,
         type: DataTypes.STRING,
       },
-      nickname :{
+      nickname: {
         allowNull: false,
-        type:DataTypes.STRING
+        type: DataTypes.STRING,
       },
       createdAt: {
-        allowNull: false, // NOT NULL
+        allowNull: false,
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,
       },
       updatedAt: {
-        allowNull: false, // NOT NULL
+        allowNull: false,
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,
       },
     },
     {
       sequelize,
-      modelName: "Users",
+      modelName: 'Users',
     }
   );
   return Users;

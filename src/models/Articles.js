@@ -1,5 +1,5 @@
-"use strict";
-const { Model } = require("sequelize");
+'use strict';
+const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Articles extends Model {
     /**
@@ -8,67 +8,68 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here     
-      this.belongsTo(models.Users,{
-        targetKey:"userId",
-        foreignKey:"UserId"
-      }),
-      this.hasMany(models.ContentImages,{
-        sourceKey:"articleId",
-        foreignKey:"articleId"
-      })      
+      this.belongsTo(models.Users, {
+        foreignKey: 'userId',
+        targetKey: 'UserId',
+        onDelete: 'CASCAED',
+        onUpdate: 'CASCAED',
+      });
+      this.hasMany(models.Collections, {
+        sourceKey: 'articleId',
+        foreignKey: 'articleId',
+      });
     }
   }
   Articles.init(
     {
       articleId: {
-        allowNull: false, // NOT NULL
-        autoIncrement: true, // AUTO_INCREMENT
-        primaryKey: true, // Primary Key (기본키)
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
         type: DataTypes.INTEGER,
       },
       UserId: {
-        allowNull: false, // NOT NULL
-        type: DataTypes.INTEGER,        
+        allowNull: false,
+        type: DataTypes.INTEGER,
       },
       title: {
-        allowNull: false, // NOT NULL
+        allowNull: false,
         type: DataTypes.STRING,
       },
       coverImage: {
-        allowNull: false, // NOT NULL
-        type: DataTypes.STRING,
+        allowNull: false,
+        type: DataTypes.STRING(1000),
       },
       residence: {
-        allowNull: false, // NOT NULL
         type: DataTypes.STRING,
       },
       area: {
-        allowNull: false, // NOT NULL
         type: DataTypes.INTEGER,
       },
       budget: {
-        allowNull: false, // NOT NULL
         type: DataTypes.INTEGER,
       },
       content: {
-        allowNull: false, // NOT NULL
-        type: DataTypes.STRING,
+        allowNull: false,
+        type: DataTypes.STRING(1000),
+      },
+      tags: {
+        type: DataTypes.STRING(1000),
       },
       createdAt: {
-        allowNull: false, // NOT NULL
+        allowNull: false,
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,
       },
       updatedAt: {
-        allowNull: false, // NOT NULL
+        allowNull: false,
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,
       },
     },
     {
       sequelize,
-      modelName: "Articles",
+      modelName: 'Articles',
     }
   );
   return Articles;
