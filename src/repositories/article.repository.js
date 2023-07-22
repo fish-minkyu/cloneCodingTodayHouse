@@ -26,4 +26,9 @@ class ArticlesRepository {
   }
 }
 
+// findArticle updateArticle deleteArticle
+// class findArticleRepository {
+// 
+// }
+
 module.exports = ArticlesRepository;
