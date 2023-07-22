@@ -1,5 +1,5 @@
-const { Articles } = require("../models");
-const { Op } = require("sequelize");
+const { Articles } = require('../models');
+const { Op } = require('sequelize');
 
 // createArticle findArticle updateArticle deleteArticle
 class ArticlesRepository {
@@ -23,7 +23,7 @@ class ArticlesRepository {
       content,
       tags,
     });
-    return createArticleData
+    return createArticleData;
   };
 
   findArticle = async (articleId) => {
@@ -42,25 +42,32 @@ class ArticlesRepository {
     content,
     tags
   ) => {
-    const updateArticleData = await Articles.update({
-      userId,
-      title,
-      coverimage,
-      residence,
-      area,
-      budget,
-      content,
-      tags,
-    });
+    const updateArticleData = await Articles.update(
+      {
+        userId,
+        title,
+        coverimage,
+        residence,
+        area,
+        budget,
+        content,
+        tags,
+      },
+      {
+        where: { [Op.and]: [{ articleId, userId }] },
+      }
+    );
 
-    return updateArticleData
+    return updateArticleData;
   };
 
-  deleteArticle = async (articleId)=>{
-    const deleteArticleData = await Articles.destroy({where:{articleId}})
+  deleteArticle = async (articleId, userId) => {
+    const deleteArticleData = await Articles.destroy({
+      where: { [Op.and]: [{ articleId, userId }] },
+    });
 
     return deleteArticleData;
-  }
+  };
 }
 
 module.exports = ArticlesRepository;

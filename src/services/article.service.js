@@ -54,10 +54,10 @@ class ArticlesService {
   };
 
   // article 삭제하기
-  deleteArticle = async (userId, articleId) => {
+  deleteArticle = async (articleId, userId) => {
     const deleteArticleData = await this.articlesRepository.deleteArticle(
-      userId,
-      articleId
+      articleId,
+      userId
     );
   };
 }
