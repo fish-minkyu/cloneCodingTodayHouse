@@ -70,7 +70,10 @@ class ArticlesController {
       const { userId } = res.locals.user;
       const { articleId } = req.params;
 
-      const deleteArticle = await this.articlesService.deleteArticle(articleId, userId);
+      const deleteArticle = await this.articlesService.deleteArticle(
+        articleId,
+        userId
+      );
       res
         .status(201)
         .json({ success: true, message: 'Article 삭제에 성공하였습니다.' });
