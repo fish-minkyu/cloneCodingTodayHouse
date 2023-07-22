@@ -49,6 +49,20 @@ class ArticlesRepository {
     return allArticle;
   };
 
+  findArticleItem = async (itemName) => {
+    const allArticleItem = await Articles.findAll({
+      attributes: ['itemname', 'brand', 'coverImage'],
+      where: {
+        itemname: {
+          [Op.like]: `%${itemName}%`,
+        },
+      },
+      limit: 6,
+    });
+
+    return allArticleItem;
+  };
+
   updateArticle = async (
     articleId,
     userId,

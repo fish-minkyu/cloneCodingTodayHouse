@@ -110,6 +110,14 @@ class ArticlesService {
       order === 'oldest' ? [['createdAt', 'ASC']] : [['createdAt', 'DESC']];
   };
 
+  // Article 검색
+  findArticleItem = async (itemName) => {
+    const allArticleItem = await this.articlesRepository.findArticleItem(
+      itemName
+    );
+    return allArticleItem;
+  };
+
   // article 수정하기
   updateArticle = async (
     articleId,

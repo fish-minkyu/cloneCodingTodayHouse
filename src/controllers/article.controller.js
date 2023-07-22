@@ -49,6 +49,16 @@ class ArticlesController {
     }
   };
 
+  findArticleItem = async (req, res, next) => {
+    try {
+      const itemName = req.body;
+      const articleItem = await this.itemsService.findArticleItem(itemName);
+      res.status(200).json({ list: articleItem });
+    } catch (error) {
+      next(error);
+    }
+  };
+
   updateArticle = async (req, res, next) => {
     try {
       const { userId } = res.locals.user;

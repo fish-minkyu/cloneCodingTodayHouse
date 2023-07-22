@@ -10,6 +10,10 @@ router.get('/', articleController.findAllArticle);
 router.post('/', articleController.createArticle);
 // Article 하나 보기
 router.get('/:articleId', articleController.findArticle);
+
+// Article item 검색
+router.get('/item', articleController.findArticleItem);
+
 // Article 수정
 router.put('/:articleId', articleController.updateArticle);
 // Article 삭제
