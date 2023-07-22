@@ -43,6 +43,14 @@ class ItemRepository {
 
     return itemList;
   };
+
+  getHomeItem = async () => {
+    const itemList = await Items.findall({
+      attributes: ['itemId', 'itemName', 'coverImage', 'price'],
+      limit: 10,
+    });
+    return itemList;
+  };
 }
 
 module.exports = ItemRepository;
