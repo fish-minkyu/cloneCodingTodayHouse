@@ -33,7 +33,7 @@ class ArticlesRepository {
   };
 
   findAllArticle = async (whereConditions, orderCondition) => {
-    const allArticle = await this.findAllArticle({
+    const allArticle = await Articles.findAll({
       attributes: ['articleId', 'title'],
       includes: [
         {
@@ -85,6 +85,23 @@ class ArticlesRepository {
     });
 
     return deleteArticleData;
+  };
+
+  getHomeArticle = async () => {
+    const articleList = await Articles.findAll({
+      attributes: ['articleId', 'title'],
+      includes: [
+        {
+          model: Users,
+          attributes: ['nickname'],
+        },
+      ],
+      limit: 12,
+      order: [[createdAt, 'DESC']],
+      raw: true,
+    });
+
+    return articleList;
   };
 }
 
