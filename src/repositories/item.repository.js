@@ -15,7 +15,6 @@ class ItemRepository {
   // 카테고리로 상품 검색(무한 스크롤 적용)
   findItemsByCategoryOrQuery = async (query) => {
     const itemList = await Items.findAll({
-      //   where: { category: { query } },
       where: query,
       attributes: ['itemId', 'itemName', 'price'],
       limit: 12,

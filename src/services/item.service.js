@@ -25,15 +25,14 @@ class ItemsService {
     if (query.category || !query.query) {
       queryCondition.category = { query };
       const categorySearchedData =
-        await this.itemsRepository.findItemsByCategory(queryCondition);
+        await this.itemsRepository.findItemsByCategoryOrQuery(queryCondition);
       return categorySearchedData;
 
       // 쿼리만 입력 된 경우
     } else if (!query.category || query.query) {
       queryCondition.itemname = { [Op.like]: `%${query}%` };
-      const querySearchedData = await this.itemsRepository.findItemsByCategory(
-        queryCondition
-      );
+      const querySearchedData =
+        await this.itemsRepository.findItemsByCategoryOrQuery(queryCondition);
       return querySearchedData;
     }
   };

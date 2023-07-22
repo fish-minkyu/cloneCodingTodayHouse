@@ -1,9 +1,12 @@
 const express = require('express');
 const dotenv = require('dotenv');
+const cors = require('cors');
+const morgan = require('morgan');
+
 dotenv.config();
 const app = express();
 
-const routes = require('./src/routes/index.route');
+const routes = require('./routes/index.route');
 
 app.use(
   cors({
