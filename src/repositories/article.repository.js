@@ -27,7 +27,7 @@ class ArticlesRepository {
   };
 
   findArticle = async (articleId) => {
-    const article = await Articles.findOne({ where: { postId } });
+    const article = await Articles.findOne({ where: { articleId } });
 
     return article;
   };
