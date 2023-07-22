@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: 'CASCAED',
         onUpdate: 'CASCAED',
       });
-      this.belongsTo(models.Users, {
+      this.belongsTo(models.Articles, {
         foreignKey: 'articleId',
         targetKey: 'articleId',
         onDelete: 'CASCAED',

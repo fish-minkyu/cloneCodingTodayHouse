@@ -10,11 +10,11 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       this.hasMany(models.Articles, {
         sourceKey: 'userId',
-        foreignKey: 'UserId',
+        foreignKey: 'userId',
       });
       this.hasMany(models.Collections, {
         sourceKey: 'userId',
-        foreignKey: 'UserId',
+        foreignKey: 'userId',
       });
     }
   }

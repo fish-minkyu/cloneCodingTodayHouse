@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         type: DataTypes.INTEGER,
       },
-      ItemName: {
+      itemName: {
         allowNull: false,
         type: DataTypes.STRING,
       },
