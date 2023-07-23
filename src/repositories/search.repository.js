@@ -24,9 +24,9 @@ class SearchRepository {
 
     // Items 테이블에서 쿼리값과 유사하게 일치하는 itemname 들을 전부 반환
     const items = await Items.findAll({
-      attributes: ['itemId', 'coverImage', 'itemname', 'price'],
+      attributes: ['itemId', 'coverImage', 'itemName', 'price'],
       where: {
-        itemname: {
+        itemName: {
           [Op.like]: `%${query}%`,
         },
       },
