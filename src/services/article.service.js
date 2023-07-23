@@ -1,4 +1,5 @@
 const ArticlesRepository = require('../repositories/article.repository');
+const CustomError = require('../middlewares/errorMiddleware');
 
 class ArticlesService {
   articlesRepository = new ArticlesRepository();
@@ -7,7 +8,7 @@ class ArticlesService {
   createArticle = async (
     userId,
     title,
-    coverimage,
+    coverImage,
     residence,
     area,
     budget,
@@ -19,7 +20,7 @@ class ArticlesService {
     const createArticleData = await this.articlesRepository.createArticle(
       userId,
       title,
-      coverimage,
+      coverImage,
       residence,
       area,
       budget,
@@ -33,6 +34,8 @@ class ArticlesService {
   // article 하나 조회
   findArticle = async (articleId) => {
     const findArticle = await this.articlesRepository.findArticle(articleId);
+    if (!findArticle) throw new CustomError('집들이를 찾을 수 없습니다.', 404);
+
     //string 되어있는 tags 객체화
     const objectTags = JSON.parse(findArticle.tags);
 
@@ -40,7 +43,7 @@ class ArticlesService {
       articleId: findArticle.articleId,
       userId: findArticle.userId,
       title: findArticle.title,
-      coverimage: findArticle.coverimage,
+      coverImage: findArticle.coverImage,
       residence: findArticle.residence,
       area: findArticle.area,
       budget: findArticle.budget,
@@ -88,27 +91,25 @@ class ArticlesService {
       if (queryObject.budgetMax) {
         whereConditions.budget[Op.lte] = Number(queryObject.budgetMax);
       }
+
+      const allArticle = await this.articlesRepository.findAllArticle(
+        whereConditions,
+        orderCondition
+      );
+
+      return allArticle.map((article) => {
+        return {
+          articleId: article.articleId,
+          title: article.title,
+          nickname: article['User.nickname'],
+        };
+      });
     }
 
     // order filter
     let order = queryObject.order || 'newest';
     let orderCondition =
       order === 'oldest' ? [['createdAt', 'ASC']] : [['createdAt', 'DESC']];
-
-    const allArticle = await this.articlesRepository.findAllArticle(
-      whereConditions,
-      orderCondition
-    );
-    // console.log(allArticle);
-
-    return allArticle.map((article) => {
-      return {
-        articleId: article.articleId,
-        title: article.title,
-        coverImage: article.coverImage,
-        nickname: article['User.nickname'],
-      };
-    });
   };
 
   // item 검색

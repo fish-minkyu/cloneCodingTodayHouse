@@ -52,7 +52,7 @@ class ArticlesRepository {
 
   // item 검색
   findArticleItem = async (itemName) => {
-    const allArticleItem = await Items.findAll({
+    const allArticleItem = await Articles.findAll({
       attributes: ['itemName', 'brand', 'coverImage'],
       where: {
         itemName: {
@@ -69,7 +69,7 @@ class ArticlesRepository {
     articleId,
     userId,
     title,
-    coverimage,
+    coverImage,
     residence,
     area,
     budget,
@@ -80,7 +80,7 @@ class ArticlesRepository {
       {
         userId,
         title,
-        coverimage,
+        coverImage,
         residence,
         area,
         budget,
@@ -105,7 +105,7 @@ class ArticlesRepository {
 
   getHomeArticle = async () => {
     const articleList = await Articles.findAll({
-      attributes: ['articleId', 'title', 'coverimage'],
+      attributes: ['articleId', 'title', 'coverImage'],
       includes: [
         {
           model: Users,

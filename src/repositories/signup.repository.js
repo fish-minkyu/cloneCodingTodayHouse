@@ -1,4 +1,5 @@
 const { Users } = require("../models")
+const { Op } = require("sequelize")
 
 class SignupRepositroy {
 
@@ -18,8 +19,13 @@ class SignupRepositroy {
     }
   };
 
-  findUser = async (email) => {
-    const user = await Users.findOne({where: {email}})
+  findUser = async (email, nickname) => {
+    const user = await Users.findOne({where: {
+      [Op.or]: [
+        {email}, 
+        {nickname}
+      ]
+      }})
     return user
   }
 }
