@@ -13,7 +13,7 @@ class LoginController {
     try {
       // case. Joi validation
       const { error } = await loginSchema.validateAsync(req.body);
-      if (error) throw new CustomError(error.details[0].message, 403);
+      if (error) throw new CustomError(error.details[0].message, 400);
 
       // DB에서 정보 찾아오기
       const user = await this.loginService.findUser(email);
@@ -41,9 +41,7 @@ class LoginController {
       res.cookie('Authorization', `Bearer ${accessToken}`);
       res.status(200).json({ nickname: user.nickname });
     } catch (err) {
-      return res
-        .status(500)
-        .json({errorMessage: "오류가 발생하였습니다."})
+      return res.status(500).json({ errorMessage: '오류가 발생하였습니다.' });
     }
   };
 }
