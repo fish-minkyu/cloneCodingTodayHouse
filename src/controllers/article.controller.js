@@ -53,6 +53,10 @@ class ArticlesController {
   findArticleItem = async (req, res, next) => {
     try {
       const { itemName, page } = req.body;
+
+      if (!itemName || !page) {
+        throw new CustomError('상품 이름 혹은 페이지를 입력 하세요', 400);
+      }
       const articleItem = await this.articlesService.findArticleItem(
         itemName,
         page
