@@ -6,14 +6,14 @@ const ItemsController = require('../controllers/item.controller');
 const itemsController = new ItemsController();
 
 // item 전체 조회
-router.get('/item', itemsController.findItems);
+router.get('/', itemsController.findItems);
 // item 카테고리별 리스트
-router.get('/item/category', itemsController.findItemsByCategoryOrQuery);
+router.get('/category', itemsController.findItemsByCategoryOrQuery);
 // item 하나보기
-router.get('/item/:itemId', itemsController.findItemByItemId);
+router.get('/:itemId', itemsController.findItemByItemId);
 
 // 테스트용 POST 라우터 작성
-router.post('/item/category', async (req, res) => {
+router.post('/category', async (req, res) => {
   try {
     const { category, coverImage, brand, content, itemName, price } = req.body;
     await Items.create({

@@ -41,7 +41,9 @@ class LoginController {
       res.cookie('Authorization', `Bearer ${accessToken}`);
       res.status(200).json({ nickname: user.nickname });
     } catch (err) {
-      next(err);
+      return res
+        .status(500)
+        .json({errorMessage: "오류가 발생하였습니다."})
     }
   };
 }

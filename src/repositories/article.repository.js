@@ -1,4 +1,4 @@
-const { Articles, Users } = require('../models');
+const { Articles, Users, Items } = require('../models');
 const { Op } = require('sequelize');
 
 // createArticle findArticle updateArticle deleteArticle

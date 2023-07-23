@@ -27,11 +27,10 @@ class ItemsController {
   // query or category 를 이용한 item 검색
   findItemsByCategoryOrQuery = async (req, res, next) => {
     try {
-      const { query, page } = req.query;
-      const items = await this.itemsService.findItemsByCategoryOrQuery(
-        query,
-        page
-      );
+      // console.log(req.query);
+      const query = req.query;
+      // console.log(query);
+      const items = await this.itemsService.findItemsByCategoryOrQuery(query);
       res.status(200).json({ items });
     } catch (error) {
       next(error);

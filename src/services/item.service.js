@@ -12,23 +12,28 @@ class ItemsService {
   };
 
   //* query or category 를 이용한 item 검색(무한 스크롤 적용)
-  findItemsByCategoryOrQuery = async (query, page) => {
+  findItemsByCategoryOrQuery = async (query) => {
     // 카테고리만 입력 된 경우
+    console.log(query);
     if (query.category || !query.query) {
       console.log(query.category);
       query.category = Number(query.category);
       const categorySearchedData =
-        await this.itemsRepository.findItemsByCategory(query.category, page);
+        await this.itemsRepository.findItemsByCategory(
+          query.category,
+          query.page
+        );
       return categorySearchedData;
 
       // 쿼리만 입력 된 경우
     } else if (!query.category || query.query) {
       const querySearchedData = await this.itemsRepository.findItemsByQuery(
-        query.query
+        query.query,
+        query.page
       );
       return querySearchedData;
     } else if (!query.query && !query.category) {
-      return;
+      throw new CustomError('검색이 필요합니다', 400);
     }
   };
 
