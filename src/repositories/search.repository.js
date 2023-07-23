@@ -5,7 +5,7 @@ const { Op } = require('sequelize');
 class SearchRepository {
   totalSearchData = async (query) => {
     // Articles 테이블에서 쿼리값과 유사하게 일치하는 title 들을 전부 반환
-    const articles = await Articles.findAll({
+    const findarticles = await Articles.findAll({
       attributes: ['articleId', 'coverImage', 'title'],
       include: [
         {
@@ -20,6 +20,15 @@ class SearchRepository {
       },
       limit: 6,
       raw: true,
+    });
+
+    const articles = findarticles.map((article) => {
+      return {
+        articleId: article.articleId,
+        title: article.title,
+        coverImage: article.coverImage,
+        nickname: article['User.nickname'],
+      };
     });
 
     // Items 테이블에서 쿼리값과 유사하게 일치하는 itemname 들을 전부 반환
