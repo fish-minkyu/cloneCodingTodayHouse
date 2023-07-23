@@ -25,7 +25,7 @@ const jwtValidation = async (req, res, next) => {
     // user 계정이 없는 경우
     if (!user) {
       res.clearCookie('Authorization')
-      throw new CustomError("없는 이메일 계정입니다", 403)
+      throw new CustomError("등록되지 않는 이메일 또는 비밀번호입니다.", 403)
     }
 
     res.locals.user = user
