@@ -120,10 +120,25 @@ class ArticlesService {
 
   // item 검색
   findArticleItem = async (itemName, page) => {
+    if (!itemName) {
+      throw new CustomError('상품 이름을 입력 하세요', 400);
+    }
+    if (!page) {
+      throw new CustomError('페이지를 입력 하세요', 400);
+    }
+
+    if (page < 1) {
+      throw new CustomError('page는 1 이상 입력해주세요', 404);
+    }
+
+    // 게시글 작성할 때 상품 검색(무한 스크롤 적용)
     const allArticleItem = await this.articlesRepository.findArticleItem(
       itemName,
       page
     );
+    if (!allArticleItem) {
+      throw new CustomError('맞는 상품을 찾지 못했어요', 404);
+    }
     return allArticleItem;
   };
 
