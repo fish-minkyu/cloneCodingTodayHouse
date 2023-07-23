@@ -7,7 +7,7 @@ const signupSchema = Joi.object().keys({
   }),
 
   nickname: Joi.string().required().messages({
-    'strig.base': '닉네임은 문자열이어야 합니다.',
+    'string.base': '닉네임은 문자열이어야 합니다.',
     'any.required': '요청한 데이터 형식이 올바르지 않습니다.',
   }),
 
@@ -36,7 +36,24 @@ const loginSchema = Joi.object().keys({
   }),
 });
 
+const articleSchema = Joi.object({
+  title: Joi.string().required().messages({
+    'string.base': '제목은 문자열이어야 합니다.',
+    'any.required': '요청한 데이터 형식이 올바르지 않습니다.',
+    'string.empty': '제목을 입력해주세요.',
+  }),
+  coverImage: Joi.required().messages({
+    'any.required': 'Cover 이미지를 넣어주세요',
+  }),
+  content: Joi.string().required().messages({
+    'string.base': '내용은 문자열이어야 합니다.',
+    'any.required': '요청한 데이터 형식이 올바르지 않습니다.',
+    'string.empty': '내용을 입력해주세요.',
+  }),
+});
+
 module.exports = {
   signupSchema,
   loginSchema,
+  articleSchema,
 };

@@ -1,6 +1,7 @@
 const ArticlesRepository = require('../repositories/article.repository');
 const CustomError = require('../middlewares/errorMiddleware');
 const { Op } = require('sequelize');
+const { articleSchema } = require('../middlewares/validationMiddleware');
 
 class ArticlesService {
   articlesRepository = new ArticlesRepository();
@@ -17,6 +18,9 @@ class ArticlesService {
     tags
   ) => {
     // tags String화
+    const { error } = articleSchema.validate({ title, coverImage, content });
+    if (error) throw new CustomError(error.details[0].message, 412);
+
     const stringTags = JSON.stringify(tags);
     const createArticleData = await this.articlesRepository.createArticle(
       userId,
