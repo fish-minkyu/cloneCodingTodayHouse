@@ -156,6 +156,15 @@ class ArticlesService {
   ) => {
     // tags String화
     const stringTags = JSON.stringify(tags);
+
+    const validateArticle = await this.articlesRepository.findArticle(
+      articleId,
+      userId
+    );
+    if (!validateArticle) {
+      throw new Error('Article 수정 권한이 없습니다.', 403);
+    }
+
     const updateArticleData = await this.articlesRepository.updateArticle(
       articleId,
       userId,
@@ -172,6 +181,14 @@ class ArticlesService {
 
   // article 삭제하기
   deleteArticle = async (articleId, userId) => {
+
+    const validateArticle = await this.articlesRepository.findArticle(
+      articleId,
+      userId
+    );
+    if (!validateArticle) {
+      throw new Error('Article 삭제 권한이 없습니다.', 403);
+    }
     const deleteArticleData = await this.articlesRepository.deleteArticle(
       articleId,
       userId

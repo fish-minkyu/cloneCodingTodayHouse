@@ -1,4 +1,6 @@
 const ArticlesService = require('../services/article.service');
+const CustomError = require('../middlewares/errorMiddleware');
+const { articleSchema } = require('../middlewares/validationMiddleware');
 
 class ArticlesController {
   articlesService = new ArticlesService();
@@ -32,7 +34,7 @@ class ArticlesController {
     try {
       const { articleId } = req.params;
       const findArticle = await this.articlesService.findArticle(articleId);
-      res.status(200).json(findArticle);
+      res.status(200).json({ findArticle });
     } catch (error) {
       next(error);
     }
@@ -41,6 +43,7 @@ class ArticlesController {
   findAllArticle = async (req, res, next) => {
     try {
       const queryObject = req.query;
+      console.log(queryObject);
       const allArticle = await this.articlesService.findAllArticle(queryObject);
 
       res.status(200).json({ articleList: allArticle });
@@ -49,14 +52,11 @@ class ArticlesController {
     }
   };
 
-  // item 검색(무한 스크롤 적용)
+  // item 검색
   findArticleItem = async (req, res, next) => {
     try {
-      const { itemName, page } = req.body;
-      const articleItem = await this.articlesService.findArticleItem(
-        itemName,
-        page
-      );
+      const itemName = req.body;
+      const articleItem = await this.itemsService.findArticleItem(itemName);
       res.status(200).json({ list: articleItem });
     } catch (error) {
       next(error);
@@ -67,14 +67,17 @@ class ArticlesController {
     try {
       const { userId } = res.locals.user;
       const { articleId } = req.params;
-      const { title, coverimage, residence, area, budget, content, tags } =
+      const { title, coverImage, residence, area, budget, content, tags } =
         req.body;
+
+      const { error } = articleSchema.validate({ title, coverImage, content });
+      if (error) throw new CustomError(error.details[0].message, 412);
 
       const updateArticle = await this.articlesService.updateArticle(
         articleId,
         userId,
         title,
-        coverimage,
+        coverImage,
         residence,
         area,
         budget,
