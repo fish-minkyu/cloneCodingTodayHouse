@@ -5,7 +5,7 @@ class SearchService {
 
   // 통합 검색 결과 가져오기
   totalSearchData = async (query) => {
-    const totalSearchedData = await this.articlesRepository.totalSearchData(
+    const totalSearchedData = await this.searchRepository.totalSearchData(
       query
     );
     return totalSearchedData;

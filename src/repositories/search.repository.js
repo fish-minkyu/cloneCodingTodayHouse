@@ -6,7 +6,7 @@ class SearchRepository {
   totalSearchData = async (query) => {
     // Articles 테이블에서 쿼리값과 유사하게 일치하는 title 들을 전부 반환
     const articles = await Articles.findAll({
-      attributes: ['articleId', 'coverImage', 'title', 'nickname'],
+      attributes: ['articleId', 'coverImage', 'title'],
       include: [
         {
           model: Users,
@@ -35,8 +35,8 @@ class SearchRepository {
 
     // API 명세서에 맞게 객체에 담아서 반환
     const totalSearchedData = {
-      articles,
       items,
+      articles,
     };
     return totalSearchedData;
   };
