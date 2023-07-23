@@ -113,6 +113,7 @@ class ArticlesService {
 
   // item 검색
   findArticleItem = async (itemName) => {
+    // console.log(itemName);
     const allArticleItem = await this.articlesRepository.findArticleItem(
       itemName
     );

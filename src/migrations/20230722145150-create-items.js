@@ -19,7 +19,7 @@ module.exports = {
       },
       coverImage: {
         allowNull: false,
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
       },
       brand: {
         allowNull: false,

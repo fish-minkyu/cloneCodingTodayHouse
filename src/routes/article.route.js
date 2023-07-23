@@ -8,11 +8,11 @@ const articleController = new ArticleController();
 router.get('/', articleController.findAllArticle);
 // Article 작성
 router.post('/', authMiddleware, articleController.createArticle);
+// Article item 검색
+router.post('/item', articleController.findArticleItem);
+
 // Article 하나 보기
 router.get('/:articleId', articleController.findArticle);
-
-// Article item 검색
-router.get('/item', articleController.findArticleItem);
 
 // Article 수정
 router.put('/:articleId', authMiddleware, articleController.updateArticle);

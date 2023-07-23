@@ -5,7 +5,7 @@ const { Op } = require('sequelize');
 class ItemsRepository {
   findItems = async () => {
     const items = await Items.findAll({
-      attributes: ['itemId', 'itemName', 'price'],
+      attributes: ['itemId', 'itemName', 'coverImage', 'price'],
       order: [['itemId', 'ASC']],
     });
 
@@ -27,11 +27,11 @@ class ItemsRepository {
   };
 
   // 사용자 쿼리로 상품 검색
-  findItemsByQuery = async (query) => {
+  findItemsByQuery = async (query, page) => {
     const itemList = await Items.findAll({
       attributes: ['itemId', 'itemname', 'coverImage', 'price'],
       where: {
-        itemname: {
+        itemName: {
           [Op.like]: `%${query}%`,
         },
       },

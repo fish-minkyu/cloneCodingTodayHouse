@@ -1,4 +1,4 @@
-const { Articles, Users } = require('../models');
+const { Articles, Users, Items } = require('../models');
 const { Op } = require('sequelize');
 
 // createArticle findArticle updateArticle deleteArticle
@@ -52,10 +52,10 @@ class ArticlesRepository {
 
   // item 검색
   findArticleItem = async (itemName) => {
-    const allArticleItem = await Articles.findAll({
-      attributes: ['itemname', 'brand', 'coverImage'],
+    const allArticleItem = await Items.findAll({
+      attributes: ['itemName', 'brand', 'coverImage'],
       where: {
-        itemname: {
+        itemName: {
           [Op.like]: `%${itemName}%`,
         },
       },
