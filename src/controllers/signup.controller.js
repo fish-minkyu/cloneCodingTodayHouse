@@ -4,7 +4,7 @@ const { signupSchema } = require('../middlewares/validationMiddleware');
 class SignupController {
   signupService = new SignupService();
 
-  signup = async (req, res) => {
+  signup = async (req, res, next) => {
     const { email, nickname, password, confirm } = req.body;
 
     try {
@@ -32,9 +32,8 @@ class SignupController {
       await this.signupService.signup(email, nickname, password);
       return res.status(201).json({ msg: '회원가입이 완료되었습니다.' });
     } catch (err) {
-      console.log(err);
       res.status(500).json({ errorMessage: '오류가 발생하였습니다.' });
-      return;
+      next(err);
     }
   };
 }
