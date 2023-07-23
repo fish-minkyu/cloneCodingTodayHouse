@@ -9,8 +9,7 @@ const loginRouter = require('./login.route');
 const searchRouter = require('./search.route');
 const signupRouter = require('./signup.route');
 
-router.use('/auth', [signupRouter, loginRouter]);
-router.use('/article', articleRouter);
+
 router.use('/home', homeRouter);
 router.use('/article', articleRouter);
 // Item 관련
@@ -18,8 +17,7 @@ router.use('/', itemRouter);
 router.use('/item', itemRouter);
 router.use('/search', searchRouter);
 // User 관련
-router.use('/auth', loginRouter)
-router.use('/auth', signupRouter)
+router.use('/auth', [signupRouter, loginRouter]);
 // // Collection 관련
 // router.use('/api', collectionRouter)
 
