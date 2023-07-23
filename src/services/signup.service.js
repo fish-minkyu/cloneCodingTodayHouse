@@ -20,8 +20,8 @@ class SignupService {
     }
   };
 
-  findUser = async (email) => {
-    const user = await this.signupRepository.findUser(email)
+  findUser = async (email, nickname) => {
+    const user = await this.signupRepository.findUser(email, nickname)
     if (user) return user
     else return;
   }

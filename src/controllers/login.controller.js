@@ -13,16 +13,16 @@ class LoginController {
       // case. Joi validation
       const { error } = await loginSchema.validateAsync(req.body);
       if (error) {
-        return res.status(412).json({ errorMessage: error.details[0].message });
+        return res.status(400).json({ errorMessage: error.details[0].message });
       }
 
       // DB에서 정보 찾아오기
       const user = await this.loginService.findUser(email);
 
+      // DB에서 유저를 찾지 못한 경우 처리
       if (!user) {
-        // DB에서 유저를 찾지 못한 경우 처리
         return res
-          .status(400)
+          .status(403)
           .json({ errorMessage: '유저를 찾을 수 없습니다.' });
       }
       // case. req.body.email과 DB email 일치확인 and req.body.password와 DB password 일치 확인
