@@ -49,12 +49,14 @@ class ArticlesController {
     }
   };
 
-  // item 검색
+  // item 검색(무한 스크롤 적용)
   findArticleItem = async (req, res, next) => {
     try {
-      const { itemName } = req.body;
-      console.log(itemName);
-      const articleItem = await this.articlesService.findArticleItem(itemName);
+      const { itemName, page } = req.body;
+      const articleItem = await this.articlesService.findArticleItem(
+        itemName,
+        page
+      );
       res.status(200).json({ list: articleItem });
     } catch (error) {
       next(error);

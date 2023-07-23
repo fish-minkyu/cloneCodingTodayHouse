@@ -115,10 +115,10 @@ class ArticlesService {
   };
 
   // item 검색
-  findArticleItem = async (itemName) => {
-    // console.log(itemName);
+  findArticleItem = async (itemName, page) => {
     const allArticleItem = await this.articlesRepository.findArticleItem(
-      itemName
+      itemName,
+      page
     );
     return allArticleItem;
   };

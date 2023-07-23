@@ -49,16 +49,19 @@ class ArticlesRepository {
     return allArticle;
   };
 
-  // item 검색
-  findArticleItem = async (itemName) => {
-    const allArticleItem = await Articles.findAll({
+  // item 검색(무한 스크롤 적용)
+  findArticleItem = async (itemName, page) => {
+    const limit = 12;
+    const offset = (page - 1) * limit;
+    const allArticleItem = await Items.findAll({
       attributes: ['itemName', 'brand', 'coverImage'],
       where: {
         itemName: {
           [Op.like]: `%${itemName}%`,
         },
       },
-      limit: 6,
+      limit: limit,
+      offset: offset,
     });
 
     return allArticleItem;
