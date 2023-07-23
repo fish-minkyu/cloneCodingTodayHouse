@@ -26,9 +26,13 @@ class ArticlesRepository {
     return createArticleData;
   };
 
-  findArticle = async (articleId, userId) => {
-    const article = await Articles.findOne({ where: { articleId, userId } });
+  findArticle = async (articleId) => {
+    const article = await Articles.findOne({ where: { articleId } });
+    return article;
+  };
 
+  findValidateArticle = async (articleId, userId) => {
+    const article = await Articles.findOne({ where: { articleId, userId } });
     return article;
   };
 

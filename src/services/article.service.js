@@ -157,7 +157,12 @@ class ArticlesService {
     // tags String화
     const stringTags = JSON.stringify(tags);
 
-    const validateArticle = await this.articlesRepository.findArticle(
+    const existArticle = await this.articlesRepository.findArticle(articleId);
+    if (!existArticle) {
+      throw new Error('Article이 존재하지 않습니다.', 404);
+    }
+
+    const validateArticle = await this.articlesRepository.findValidateArticle(
       articleId,
       userId
     );
@@ -181,8 +186,12 @@ class ArticlesService {
 
   // article 삭제하기
   deleteArticle = async (articleId, userId) => {
+    const existArticle = await this.articlesRepository.findArticle(articleId);
+    if (!existArticle) {
+      throw new Error('Article이 존재하지 않습니다.', 404);
+    }
 
-    const validateArticle = await this.articlesRepository.findArticle(
+    const validateArticle = await this.articlesRepository.findValidateArticle(
       articleId,
       userId
     );
