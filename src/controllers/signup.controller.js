@@ -11,20 +11,20 @@ class SignupController {
       // case. Joi schema의 형식에 맞지 않는 경우
       const { error } = signupSchema.validate(req.body);
       if (error) {
-        res.status(412).json({ errorMessage: error.details[0].message });
+        res.status(400).json({ errorMessage: error.details[0].message });
         return;
       }
 
       // case. 비밀번호가 맞지 않는 경우
       if (password !== confirm) {
-        res.status(412).json({ errorMessage: '비밀번호가 일치하지 않습니다.' });
+        res.status(400).json({ errorMessage: '비밀번호가 일치하지 않습니다.' });
         return;
       }
 
       // case. 이미 email이 있는 경우
-      const user = await this.signupService.findUser(email);
-      if (user) {
-        res.status(412).json({ errorMessage: '중복된 이메일입니다.' });
+      const User = await this.signupService.findUser(email, nickname);
+      if (User) {
+        res.status(400).json({ errorMessage: '중복된 이메일 또는 닉네임입니다.' });
         return;
       }
 
