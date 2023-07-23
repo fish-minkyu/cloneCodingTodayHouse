@@ -1,5 +1,6 @@
 const ArticlesRepository = require('../repositories/article.repository');
 const CustomError = require('../middlewares/errorMiddleware');
+const { Op } = require('sequelize');
 
 class ArticlesService {
   articlesRepository = new ArticlesRepository();
@@ -91,25 +92,26 @@ class ArticlesService {
       if (queryObject.budgetMax) {
         whereConditions.budget[Op.lte] = Number(queryObject.budgetMax);
       }
-
-      const allArticle = await this.articlesRepository.findAllArticle(
-        whereConditions,
-        orderCondition
-      );
-
-      return allArticle.map((article) => {
-        return {
-          articleId: article.articleId,
-          title: article.title,
-          nickname: article['User.nickname'],
-        };
-      });
     }
 
     // order filter
     let order = queryObject.order || 'newest';
     let orderCondition =
       order === 'oldest' ? [['createdAt', 'ASC']] : [['createdAt', 'DESC']];
+
+    const allArticle = await this.articlesRepository.findAllArticle(
+      whereConditions,
+      orderCondition
+    );
+
+    return allArticle.map((article) => {
+      return {
+        articleId: article.articleId,
+        title: article.title,
+        coverImage: article.coverImage,
+        nickname: article['User.nickname'],
+      };
+    });
   };
 
   // item 검색
