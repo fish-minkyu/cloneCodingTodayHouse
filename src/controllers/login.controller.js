@@ -2,6 +2,7 @@ const LoginService = require('../services/login.service');
 const { loginSchema } = require('../middlewares/validationMiddleware');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const CustomError = require('../middlewares/errorMiddleware');
 
 class LoginController {
   loginService = new LoginService();
@@ -12,9 +13,7 @@ class LoginController {
     try {
       // case. Joi validation
       const { error } = await loginSchema.validateAsync(req.body);
-      if (error) {
-        return res.status(400).json({ errorMessage: error.details[0].message });
-      }
+      if (error) throw new CustomError(error.details[0].message, 403);
 
       // DB에서 정보 찾아오기
       const user = await this.loginService.findUser(email);
