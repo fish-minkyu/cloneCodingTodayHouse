@@ -108,7 +108,7 @@ class ArticlesRepository {
   getHomeArticle = async () => {
     const articleList = await Articles.findAll({
       attributes: ['articleId', 'title', 'coverImage'],
-      includes: [
+      include: [
         {
           model: Users,
           attributes: ['nickname'],
@@ -120,6 +120,17 @@ class ArticlesRepository {
     });
 
     return articleList;
+  };
+
+  findMyArticle = async (userId) => {
+    const myArticles = await Articles.findAll({
+      attributes: ['articleId', 'title', 'coverImage'],
+      where: [{ userId }],
+      order: [['createdAt', 'DESC']],
+      raw: true,
+    });
+
+    return myArticles;
   };
 }
 

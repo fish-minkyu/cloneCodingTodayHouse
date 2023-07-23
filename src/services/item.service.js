@@ -16,6 +16,19 @@ class ItemsService {
 
   //* query or category 를 이용한 item 검색(무한 스크롤 적용)
   findItemsByCategoryOrQuery = async (query) => {
+    // 쿼리를 받지 않은 경우
+    if (Object.keys(query).length === 0) {
+      throw new CustomError('검색어를 입력해야 합니다', 400);
+    }
+
+    // 페이지 값을 받지 않은 경우
+    if (!query.page) {
+      throw new CustomError('페이지 값이 없습니다', 400);
+    }
+    // 페이지 값이 1 미만인 경우
+    if (query.page < 1) {
+      throw new CustomError('page는 1 이상 입력해주세요', 404);
+    }
     // 카테고리만 입력 된 경우
     if (query.category || !query.query) {
       // 카테고리 데이터 타입을 숫자로 변환
@@ -55,6 +68,9 @@ class ItemsService {
       itemId
     );
 
+    if (!findItemByItemIdData) {
+      throw new CustomError('해당 상품이 존재하지 않습니다', 404);
+    }
     return findItemByItemIdData;
   };
 }

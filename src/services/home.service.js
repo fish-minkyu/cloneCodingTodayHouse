@@ -6,8 +6,17 @@ class HomeService {
   itemRepository = new ItemRepository();
 
   getHome = async () => {
-    const articleList = await this.articlesRepository.getHomeArticle();
+    const findArticleList = await this.articlesRepository.getHomeArticle();
     const itemList = await this.itemRepository.getHomeItem();
+
+    const articleList = findArticleList.map((article) => {
+      return {
+        articleId: article.articleId,
+        title: article.title,
+        coverImage: article.coverImage,
+        nickname: article['User.nickname'],
+      };
+    });
 
     return {
       articleList,
