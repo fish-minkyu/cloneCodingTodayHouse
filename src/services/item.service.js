@@ -18,21 +18,32 @@ class ItemsService {
   findItemsByCategoryOrQuery = async (query) => {
     // 카테고리만 입력 된 경우
     if (query.category || !query.query) {
+      // 카테고리 데이터 타입을 숫자로 변환
       query.category = Number(query.category);
+
+      // 카테고리에 해당하는 상품들 받아오기
       const categorySearchedData =
         await this.itemsRepository.findItemsByCategory(
           query.category,
           query.page
         );
+      if (categorySearchedData.length === 0) {
+        throw new CustomError('카테고리에 해당하는 상품이 없습니다', 404);
+      }
       return categorySearchedData;
 
       // 쿼리만 입력 된 경우
     } else if (!query.category || query.query) {
+      // 쿼리에 해당하는 상품 받아오기
       const querySearchedData = await this.itemsRepository.findItemsByQuery(
         query.query,
         query.page
       );
+      if (querySearchedData.length === 0) {
+        throw new CustomError('쿼리에 해당하는 상품이 없습니다', 404);
+      }
       return querySearchedData;
+      // 쿼리, 카테고리 둘 다 입력받지 못한 경우
     } else if (!query.query && !query.category) {
       throw new CustomError('검색이 필요합니다', 400);
     }
