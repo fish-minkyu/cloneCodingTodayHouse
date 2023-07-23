@@ -55,6 +55,9 @@ class ItemsService {
       itemId
     );
 
+    if (!findItemByItemIdData) {
+      throw new CustomError('해당 상품이 존재하지 않습니다', 404);
+    }
     return findItemByItemIdData;
   };
 }
