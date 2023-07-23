@@ -112,7 +112,7 @@ class ArticlesRepository {
         },
       ],
       limit: 12,
-      order: [[createdAt, 'DESC']],
+      order: [['createdAt', 'DESC']],
       raw: true,
     });
 
