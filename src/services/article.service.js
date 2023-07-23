@@ -46,7 +46,7 @@ class ArticlesService {
 
     return {
       articleId: findArticle.articleId,
-      userId: findArticle.userId,
+      nickname: findArticle['User.nickname'],
       title: findArticle.title,
       coverImage: findArticle.coverImage,
       residence: findArticle.residence,

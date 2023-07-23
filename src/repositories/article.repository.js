@@ -27,8 +27,8 @@ class ArticlesRepository {
   };
 
   findArticle = async (articleId, userId) => {
-    const whereClause = userId ? { articleId, userId } : { articleId };
-    const article = await Articles.findOne({ where: whereClause });
+    const article = await Articles.findOne({ where: { articleId, userId } });
+
     return article;
   };
   
