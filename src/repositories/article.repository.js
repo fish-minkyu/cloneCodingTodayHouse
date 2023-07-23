@@ -27,11 +27,29 @@ class ArticlesRepository {
   };
 
   findArticle = async (articleId, userId) => {
-    const article = await Articles.findOne({ where: { articleId, userId } });
-
+    const whereClause = userId ? { articleId, userId } : { articleId };
+    const article = await Articles.findOne({
+      where:  whereClause ,
+      attributes: [
+        'articleId',
+        'title',
+        'coverImage',
+        'residence',
+        'area',
+        'budget',
+        'content',
+        'tags',
+      ],
+      include: [
+        {
+          model: Users,
+          attributes: ['nickname'],
+        },
+      ],
+      raw: true,
+    });
     return article;
   };
-  
 
   findAllArticle = async (whereConditions, orderCondition) => {
     const allArticle = await Articles.findAll({
