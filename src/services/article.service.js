@@ -162,7 +162,7 @@ class ArticlesService {
       throw new Error('Article이 존재하지 않습니다.', 404);
     }
 
-    const validateArticle = await this.articlesRepository.findValidateArticle(
+    const validateArticle = await this.articlesRepository.findArticle(
       articleId,
       userId
     );
@@ -191,7 +191,7 @@ class ArticlesService {
       throw new Error('Article이 존재하지 않습니다.', 404);
     }
 
-    const validateArticle = await this.articlesRepository.findValidateArticle(
+    const validateArticle = await this.articlesRepository.findArticle(
       articleId,
       userId
     );

@@ -26,15 +26,12 @@ class ArticlesRepository {
     return createArticleData;
   };
 
-  findArticle = async (articleId) => {
-    const article = await Articles.findOne({ where: { articleId } });
+  findArticle = async (articleId, userId) => {
+    const whereClause = userId ? { articleId, userId } : { articleId };
+    const article = await Articles.findOne({ where: whereClause });
     return article;
   };
-
-  findValidateArticle = async (articleId, userId) => {
-    const article = await Articles.findOne({ where: { articleId, userId } });
-    return article;
-  };
+  
 
   findAllArticle = async (whereConditions, orderCondition) => {
     const allArticle = await Articles.findAll({
