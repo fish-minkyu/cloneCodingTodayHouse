@@ -108,7 +108,7 @@ class ArticlesRepository {
   getHomeArticle = async () => {
     const articleList = await Articles.findAll({
       attributes: ['articleId', 'title', 'coverImage'],
-      includes: [
+      include: [
         {
           model: Users,
           attributes: ['nickname'],
