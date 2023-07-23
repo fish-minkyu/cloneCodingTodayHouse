@@ -45,7 +45,6 @@ class ArticlesRepository {
       order: orderCondition,
       raw: true,
     });
-    console.log(allArticle);
 
     return allArticle;
   };

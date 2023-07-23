@@ -41,7 +41,6 @@ class ArticlesController {
   findAllArticle = async (req, res, next) => {
     try {
       const queryObject = req.query;
-      console.log(queryObject);
       const allArticle = await this.articlesService.findAllArticle(queryObject);
 
       res.status(200).json({ articleList: allArticle });
