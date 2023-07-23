@@ -6,7 +6,7 @@ class ArticlesRepository {
   createArticle = async (
     userId,
     title,
-    coverimage,
+    coverImage,
     residence,
     area,
     budget,
@@ -16,7 +16,7 @@ class ArticlesRepository {
     const createArticleData = await Articles.create({
       userId,
       title,
-      coverimage,
+      coverImage,
       residence,
       area,
       budget,
@@ -34,8 +34,8 @@ class ArticlesRepository {
 
   findAllArticle = async (whereConditions, orderCondition) => {
     const allArticle = await Articles.findAll({
-      attributes: ['articleId', 'title'],
-      includes: [
+      attributes: ['articleId', 'title', 'coverImage'],
+      include: [
         {
           model: Users,
           attributes: ['nickname'],
@@ -45,6 +45,7 @@ class ArticlesRepository {
       order: orderCondition,
       raw: true,
     });
+    console.log(allArticle);
 
     return allArticle;
   };
@@ -104,7 +105,7 @@ class ArticlesRepository {
 
   getHomeArticle = async () => {
     const articleList = await Articles.findAll({
-      attributes: ['articleId', 'title'],
+      attributes: ['articleId', 'title', 'coverimage'],
       includes: [
         {
           model: Users,
@@ -112,7 +113,7 @@ class ArticlesRepository {
         },
       ],
       limit: 12,
-      order: [[createdAt, 'DESC']],
+      order: [['createdAt', 'DESC']],
       raw: true,
     });
 

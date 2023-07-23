@@ -6,8 +6,8 @@ class HomeService {
   itemRepository = new ItemRepository();
 
   getHome = async () => {
-    articleList = await this.articlesRepository.getHomeArticle();
-    itemList = await this.itemRepository.getHomeItem();
+    const articleList = await this.articlesRepository.getHomeArticle();
+    const itemList = await this.itemRepository.getHomeItem();
 
     return {
       articleList,

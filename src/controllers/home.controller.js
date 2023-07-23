@@ -5,13 +5,14 @@ class HomeController {
 
   getHome = async (req, res, next) => {
     try {
-      homepage = await this.homeService.getHome();
+      const homepage = await this.homeService.getHome();
 
       res.status(200).json({
         articleList: homepage.articleList,
         itemList: homepage.itemList,
       });
     } catch (error) {
+      console.log(error);
       next(error);
     }
   };
