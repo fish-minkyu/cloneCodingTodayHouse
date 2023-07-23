@@ -25,7 +25,7 @@ class SignupController {
       await this.signupService.signup(email, nickname, password);
       return res.status(201).json({ msg: '회원가입이 완료되었습니다.' });
     } catch (err) {
-      throw new CustomError('오류가 발생하였습니다.', 500);
+      next(err);
     }
   };
 }

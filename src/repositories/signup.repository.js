@@ -1,33 +1,25 @@
-const { Users } = require("../models")
-const { Op } = require("sequelize")
+const { Users } = require('../models');
+const { Op } = require('sequelize');
 
 class SignupRepositroy {
-
   signup = async (email, nickname, hashedPassword) => {
+    const user = await Users.create({
+      email,
+      nickname,
+      password: hashedPassword,
+    });
 
-    try {
-      const user = await Users.create({
-        email, 
-        nickname,
-        password: hashedPassword
-      })
-
-      return user
-    } catch (err) {
-      console.log('signup error - repository')
-      return err
-    }
+    return user;
   };
 
   findUser = async (email, nickname) => {
-    const user = await Users.findOne({where: {
-      [Op.or]: [
-        {email}, 
-        {nickname}
-      ]
-      }})
-    return user
-  }
+    const user = await Users.findOne({
+      where: {
+        [Op.or]: [{ email }, { nickname }],
+      },
+    });
+    return user;
+  };
 }
 
 module.exports = SignupRepositroy;

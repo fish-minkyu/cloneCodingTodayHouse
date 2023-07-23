@@ -19,11 +19,13 @@ class LoginController {
       const user = await this.loginService.findUser(email);
 
       // DB에서 email을 찾지 못한 경우 처리
-      if (!user) throw new CustomError("이메일 또는 비밀번호가 일치하지 않습니다.", 403)
-      
+      if (!user)
+        throw new CustomError('이메일 또는 비밀번호가 일치하지 않습니다.', 403);
+
       // case. req.body.email과 DB email 일치확인 and req.body.password와 DB password 일치 확인
       const validPassword = await bcrypt.compare(password, user.password);
-      if (!validPassword) throw new CustomError("이메일 또는 비밀번호가 일치하지 않습니다.", 403)
+      if (!validPassword)
+        throw new CustomError('이메일 또는 비밀번호가 일치하지 않습니다.', 403);
 
       // accessToken 생성
       const accessToken = jwt.sign({ email }, 'secretKey', { expiresIn: '1h' });
@@ -34,7 +36,7 @@ class LoginController {
       res.cookie('Authorization', `Bearer ${accessToken}`);
       res.status(200).json({ nickname: user.nickname });
     } catch (err) {
-      throw new CustomError("오류가 발생하였습니다.", 500)
+      next(err);
     }
   };
 }
