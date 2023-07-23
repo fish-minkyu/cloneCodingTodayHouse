@@ -32,7 +32,7 @@ class ArticlesController {
     try {
       const { articleId } = req.params;
       const findArticle = await this.articlesService.findArticle(articleId);
-      res.status(200).json({ findArticle });
+      res.status(200).json(findArticle);
     } catch (error) {
       next(error);
     }

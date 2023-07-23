@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       coverImage: {
         allowNull: false,
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
       },
       brand: {
         allowNull: false,

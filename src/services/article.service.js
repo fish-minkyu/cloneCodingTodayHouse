@@ -1,4 +1,5 @@
 const ArticlesRepository = require('../repositories/article.repository');
+const CustomError = require('../middlewares/errorMiddleware');
 
 class ArticlesService {
   articlesRepository = new ArticlesRepository();
@@ -33,6 +34,8 @@ class ArticlesService {
   // article 하나 조회
   findArticle = async (articleId) => {
     const findArticle = await this.articlesRepository.findArticle(articleId);
+    if (!findArticle) throw new CustomError('집들이를 찾을 수 없습니다.', 404);
+
     //string 되어있는 tags 객체화
     const objectTags = JSON.parse(findArticle.tags);
 
