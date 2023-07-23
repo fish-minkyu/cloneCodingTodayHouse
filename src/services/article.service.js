@@ -1,5 +1,5 @@
 const ArticlesRepository = require('../repositories/article.repository');
-const { all } = require('../routes/article.route');
+// const { all } = require('../routes/article.route');
 
 class ArticlesService {
   articlesRepository = new ArticlesRepository();

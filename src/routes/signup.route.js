@@ -5,6 +5,6 @@ const SignupController = require("../controllers/signup.controller")
 const signupController = new SignupController
 
 // 회원가입 API
-router.post("/auth/signup", signupController.signup)
+router.post("/signup", signupController.signup)
 
 module.exports = router;

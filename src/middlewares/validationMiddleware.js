@@ -15,6 +15,11 @@ const signupSchema = Joi.object().keys({
         "string.base": "비밀번호는 문자열이어야 합니다.",
         "any.required": "요청한 데이터 형식이 올바르지 않습니다.",
         "string.empty": "비밀번호를 입력해주세요."
+    }),
+    confirm: Joi.string().required().messages({
+        "string.base": "비밀번호는 문자열이어야 합니다.",
+        "any.required": "요청한 데이터 형식이 올바르지 않습니다.",
+        "string.empty": "비밀번호를 입력해주세요."
     })
 })
 
