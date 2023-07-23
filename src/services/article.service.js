@@ -46,7 +46,7 @@ class ArticlesService {
 
     return {
       articleId: findArticle.articleId,
-      userId: findArticle.userId,
+      nickname: findArticle['User.nickname'],
       title: findArticle.title,
       coverImage: findArticle.coverImage,
       residence: findArticle.residence,
@@ -157,7 +157,7 @@ class ArticlesService {
     // tags String화
     const stringTags = JSON.stringify(tags);
 
-    const validateArticle = await this.articlesRepository.findArticle(
+    const validateArticle = await this.articlesRepository.validateArticle(
       articleId,
       userId
     );
@@ -181,8 +181,7 @@ class ArticlesService {
 
   // article 삭제하기
   deleteArticle = async (articleId, userId) => {
-
-    const validateArticle = await this.articlesRepository.findArticle(
+    const validateArticle = await this.articlesRepository.validateArticle(
       articleId,
       userId
     );

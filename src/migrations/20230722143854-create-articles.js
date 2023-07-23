@@ -22,7 +22,7 @@ module.exports = {
         type: Sequelize.STRING,
       },
       residence: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
       },
       area: {
         type: Sequelize.INTEGER,
