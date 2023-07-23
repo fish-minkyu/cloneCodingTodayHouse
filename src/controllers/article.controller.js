@@ -6,13 +6,13 @@ class ArticlesController {
   createArticle = async (req, res, next) => {
     try {
       const { userId } = res.locals.user;
-      const { title, coverimage, residence, area, budget, content, tags } =
+      const { title, coverImage, residence, area, budget, content, tags } =
         req.body;
 
       const createArticle = await this.articlesService.createArticle(
         userId,
         title,
-        coverimage,
+        coverImage,
         residence,
         area,
         budget,
@@ -41,6 +41,7 @@ class ArticlesController {
   findAllArticle = async (req, res, next) => {
     try {
       const queryObject = req.query;
+      console.log(queryObject);
       const allArticle = await this.articlesService.findAllArticle(queryObject);
 
       res.status(200).json({ articleList: allArticle });
