@@ -8,7 +8,12 @@ const multerMiddleware = require('../middlewares/multerMiddleware.js');
 // Article 전체 조회 (추가예정)
 router.get('/', articleController.findAllArticle);
 // Article 작성
-router.post('/', authMiddleware, articleController.createArticle);
+router.post(
+  '/',
+  authMiddleware,
+  multerMiddleware.single('coverImage'),
+  articleController.createArticle
+);
 // Article item 검색
 router.post('/item', articleController.findArticleItem);
 // Article 작성 시 image 추가
@@ -25,7 +30,12 @@ router.post(
 router.get('/:articleId', articleController.findArticle);
 
 // Article 수정
-router.put('/:articleId', authMiddleware, articleController.updateArticle);
+router.put(
+  '/:articleId',
+  authMiddleware,
+  multerMiddleware.single('coverImage'),
+  articleController.updateArticle
+);
 // Article 삭제
 router.delete('/:articleId', authMiddleware, articleController.deleteArticle);
 

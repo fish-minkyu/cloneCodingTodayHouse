@@ -8,8 +8,12 @@ class ArticlesController {
   createArticle = async (req, res, next) => {
     try {
       const { userId } = res.locals.user;
-      const { title, coverImage, residence, area, budget, content, tags } =
-        req.body;
+      // 이미지 url 추가
+      const coverImage = req.file.location;
+      const { title, residence, area, budget, content, tags } = req.body;
+
+      const { error } = articleSchema.validate({ title, coverImage, content });
+      if (error) throw new CustomError(error.details[0].message, 412);
 
       const createArticle = await this.articlesService.createArticle(
         userId,
@@ -67,8 +71,9 @@ class ArticlesController {
     try {
       const { userId } = res.locals.user;
       const { articleId } = req.params;
-      const { title, coverImage, residence, area, budget, content, tags } =
-        req.body;
+      // 이미지 url 추가
+      const coverImage = req.file.location;
+      const { title, residence, area, budget, content, tags } = req.body;
 
       const { error } = articleSchema.validate({ title, coverImage, content });
       if (error) throw new CustomError(error.details[0].message, 412);
