@@ -3,6 +3,7 @@ const router = express.Router();
 const authMiddleware = require('../middlewares/authMiddleware.js');
 const ArticleController = require('../controllers/article.controller');
 const articleController = new ArticleController();
+const multerMiddleware = require('../middlewares/multerMiddleware.js');
 
 // Article 전체 조회 (추가예정)
 router.get('/', articleController.findAllArticle);
@@ -10,6 +11,15 @@ router.get('/', articleController.findAllArticle);
 router.post('/', authMiddleware, articleController.createArticle);
 // Article item 검색
 router.post('/item', articleController.findArticleItem);
+// Article 작성 시 image 추가
+router.post(
+  '/contentImage',
+  authMiddleware,
+  multerMiddleware.single('contentImage'),
+  articleController.createContentImage
+);
+
+// Article 작성 시 image 삭제 기능 (추가 구현 예정)
 
 // Article 하나 보기
 router.get('/:articleId', articleController.findArticle);

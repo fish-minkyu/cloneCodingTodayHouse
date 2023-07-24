@@ -109,6 +109,16 @@ class ArticlesController {
       next(error);
     }
   };
+
+  createContentImage = async (req, res, next) => {
+    try {
+      const url = req.file.location;
+
+      res.status(200).json({ url });
+    } catch (error) {
+      next(error);
+    }
+  };
 }
 
 module.exports = ArticlesController;
