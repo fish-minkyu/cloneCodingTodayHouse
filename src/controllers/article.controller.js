@@ -59,8 +59,11 @@ class ArticlesController {
   // item 검색
   findArticleItem = async (req, res, next) => {
     try {
-      const itemName = req.body;
-      const articleItem = await this.itemsService.findArticleItem(itemName);
+      const { itemName, page } = req.body;
+      const articleItem = await this.articlesService.findArticleItem(
+        itemName,
+        page
+      );
       res.status(200).json({ list: articleItem });
     } catch (error) {
       next(error);

@@ -29,7 +29,7 @@ class ArticlesRepository {
   findArticle = async (articleId, userId) => {
     const whereClause = userId ? { articleId, userId } : { articleId };
     const article = await Articles.findOne({
-      where:  whereClause ,
+      where: whereClause,
       attributes: [
         'articleId',
         'title',
@@ -73,7 +73,7 @@ class ArticlesRepository {
     const limit = 12;
     const offset = (page - 1) * limit;
     const allArticleItem = await Items.findAll({
-      attributes: ['itemName', 'brand', 'coverImage'],
+      attributes: ['itemId', 'itemName', 'brand', 'coverImage'],
       where: {
         itemName: {
           [Op.like]: `%${itemName}%`,
