@@ -3,6 +3,7 @@ const { loginSchema } = require('../middlewares/validationMiddleware');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const CustomError = require('../middlewares/errorMiddleware');
+require('dotenv').config();
 
 class LoginController {
   loginService = new LoginService();
@@ -28,7 +29,9 @@ class LoginController {
         throw new CustomError('이메일 또는 비밀번호가 일치하지 않습니다.', 403);
 
       // accessToken 생성
-      const accessToken = jwt.sign({ email }, 'secretKey', { expiresIn: '1h' });
+      const accessToken = jwt.sign({ email }, process.env.JWT, {
+        expiresIn: '3h',
+      });
 
       //// refreshToken 생성
       // const refreshToken = jwt.sign({}, 'freshKey', {expiresIn: '10h'})
