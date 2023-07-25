@@ -136,7 +136,7 @@ class ArticlesService {
       itemName,
       page
     );
-    if (!allArticleItem) {
+    if (allArticleItem.length === 0) {
       throw new CustomError('맞는 상품을 찾지 못했어요', 404);
     }
     return allArticleItem;
