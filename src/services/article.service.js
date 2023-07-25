@@ -1,10 +1,12 @@
 const ArticlesRepository = require('../repositories/article.repository');
+const CollectionRepository = require('../repositories/collection.repository');
 const CustomError = require('../middlewares/errorMiddleware');
 const { Op } = require('sequelize');
 const { articleSchema } = require('../middlewares/validationMiddleware');
 
 class ArticlesService {
   articlesRepository = new ArticlesRepository();
+  collectionRepository = new CollectionRepository();
 
   // article 생성하기
   createArticle = async (
@@ -37,9 +39,23 @@ class ArticlesService {
   };
 
   // article 하나 조회
-  findArticle = async (articleId) => {
+  findArticle = async (articleId, userId) => {
     const findArticle = await this.articlesRepository.findArticle(articleId);
     if (!findArticle) throw new CustomError('집들이를 찾을 수 없습니다.', 404);
+
+    const findOneCollection = 0;
+
+    //collection 찾기
+    if (!userId) {
+      findOneCollection = 0;
+    } else {
+      findOneCollection = await this.collectionRepository.findOneCollection(
+        articleId,
+        userId
+      );
+    }
+
+    console.log(findOneCollection);
 
     //string 되어있는 tags 객체화
     const objectTags = JSON.parse(findArticle.tags);
@@ -53,12 +69,13 @@ class ArticlesService {
       area: findArticle.area,
       budget: findArticle.budget,
       content: findArticle.content,
+      collection: findOneCollection,
       tags: objectTags,
     };
   };
 
   // article 전체 조회(조건 추가)
-  findAllArticle = async (queryObject) => {
+  findAllArticle = async (queryObject, userId) => {
     // 조건 설정 객체
     let whereConditions = {};
 
@@ -105,7 +122,8 @@ class ArticlesService {
 
     const allArticle = await this.articlesRepository.findAllArticle(
       whereConditions,
-      orderCondition
+      orderCondition,
+      userId
     );
 
     return allArticle.map((article) => {
@@ -114,6 +132,7 @@ class ArticlesService {
         title: article.title,
         coverImage: article.coverImage,
         nickname: article['User.nickname'],
+        collection: article.collection,
       };
     });
   };

@@ -36,19 +36,29 @@ class ArticlesController {
 
   findArticle = async (req, res, next) => {
     try {
+      // collection 기능 추가하기
+      // 책갈피용 userId 추가
       const { articleId } = req.params;
-      const findArticle = await this.articlesService.findArticle(articleId);
+      const { userId } = res.locals.user;
+      const findArticle = await this.articlesService.findArticle(
+        articleId,
+        userId
+      );
       res.status(200).json({ findArticle });
     } catch (error) {
       next(error);
     }
   };
 
+  // collection 기능 추가
   findAllArticle = async (req, res, next) => {
     try {
       const queryObject = req.query;
-      console.log(queryObject);
-      const allArticle = await this.articlesService.findAllArticle(queryObject);
+      const userId = res.locals.userId;
+      const allArticle = await this.articlesService.findAllArticle(
+        queryObject,
+        userId
+      );
 
       res.status(200).json({ articleList: allArticle });
     } catch (error) {
