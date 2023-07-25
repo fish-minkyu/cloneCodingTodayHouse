@@ -29,7 +29,10 @@ class LoginController {
         throw new CustomError('이메일 또는 비밀번호가 일치하지 않습니다.', 403);
 
       // accessToken 생성
-      const accessToken = jwt.sign({ email }, process.env.JWT, {
+      const accessToken = jwt.sign({ 
+        userId: user.userId,
+        nickname: user.nickname
+      }, process.env.JWT, {
         expiresIn: '3h',
       });
 
@@ -42,6 +45,28 @@ class LoginController {
       next(err);
     }
   };
+
+  checkout = async (req, res, next) => {
+    const { Authorization } = req.cookies
+
+    try {
+      const [tokenType, accessToken] = (Authorization ?? '').split(' ')
+
+      const {userId, nickname} = jwt.verify(accessToken, process.env.JWT)
+
+      if (userId && nickname) {
+        res.status(200).json({
+          success: true,
+          userId,
+          nickname
+        })
+      } else {
+        res.json({success: false})
+      }
+    } catch (err) {
+      next(err)
+    }
+  }
 }
 
 module.exports = LoginController;
