@@ -10,7 +10,7 @@ const checkMiddleware = async (req, res, next) => {
     const [tokenType, accessToken] = (Authorization ?? '').split(' ');
 
     if (!Authorization || tokenType !== 'Bearer') {
-      res.locals.userId = undefined;
+      res.locals.userId = false;
 
       next();
     } else {

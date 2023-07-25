@@ -43,11 +43,11 @@ class ArticlesService {
     const findArticle = await this.articlesRepository.findArticle(articleId);
     if (!findArticle) throw new CustomError('집들이를 찾을 수 없습니다.', 404);
 
-    const findOneCollection = 0;
+    let findOneCollection = false;
 
     //collection 찾기
     if (!userId) {
-      findOneCollection = 0;
+      findOneCollection = false;
     } else {
       findOneCollection = await this.collectionRepository.findOneCollection(
         articleId,
