@@ -147,19 +147,41 @@ class ArticlesRepository {
     return deleteArticleData;
   };
 
-  getHomeArticle = async () => {
+  getHomeArticle = async (userId) => {
     const articleList = await Articles.findAll({
-      attributes: ['articleId', 'title', 'coverImage'],
+      attributes: [
+        'articleId',
+        'title',
+        'coverImage',
+        [
+          Sequelize.literal(
+            `CASE WHEN Collections.articleId IS NOT NULL THEN TRUE ELSE FALSE END`
+          ),
+          'collection',
+        ],
+      ],
       include: [
         {
           model: Users,
           attributes: ['nickname'],
+        },
+        {
+          model: Collections,
+          attributes: [], // SELECT 절에 추가하고 싶지 않기 때문에 빈 배열
+          required: false, // LEFT JOIN
+          where: userId ? { userId } : null, // userId가 있으면 해당 사용자의 collection만, 없으면 모두
         },
       ],
       limit: 12,
       order: [['createdAt', 'DESC']],
       raw: true,
     });
+
+    if (!userId) {
+      articleList.forEach((article) => {
+        article.collection = false;
+      });
+    }
 
     return articleList;
   };

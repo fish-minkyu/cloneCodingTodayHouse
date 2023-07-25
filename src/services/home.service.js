@@ -6,7 +6,9 @@ class HomeService {
   itemRepository = new ItemRepository();
 
   getHome = async () => {
-    const findArticleList = await this.articlesRepository.getHomeArticle();
+    const findArticleList = await this.articlesRepository.getHomeArticle(
+      userId
+    );
     const itemList = await this.itemRepository.getHomeItem();
 
     const articleList = findArticleList.map((article) => {
@@ -15,6 +17,7 @@ class HomeService {
         title: article.title,
         coverImage: article.coverImage,
         nickname: article['User.nickname'],
+        collection: article.collection,
       };
     });
 
