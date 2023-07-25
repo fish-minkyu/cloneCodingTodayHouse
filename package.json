@@ -21,7 +21,7 @@
   },
   "name": "src",
   "version": "1.0.0",
-  "main": "app.js",
+  "main": "pm2 start app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
