@@ -9,39 +9,20 @@ class CollectionsService {
   collectionsRepository = new CollectionsRepository();
 
   // 책갈피 저장하기
-  createCollection = async () => {
+  createCollection = async (userId, articleId) => {
     const createCollectionData =
-      await this.collectionsRepository.createCollection();
+      await this.collectionsRepository.createCollection(userId, articleId);
 
     return createCollectionData;
   };
 
   // 책갈피 불러오기-Articles/Users
-  findAllCollection = async () => {
-    const findAllCollectionData =
-      await this.collectionsRepository.findAllCollection();
+  findAllCollection = async (userId) => {
+    const collections = await this.collectionsRepository.findAllCollection(
+      userId
+    );
 
-    try {
-      const collections = [];
-      for (const collection of findAllCollectionData) {
-        const { articleId, UserId } = collection;
-        const article = await Articles.findOne({ where: { articleId } });
-        const user = await Users.findOne({ where: { UserId } });
-
-        const NewCollections = {
-          articleId: article.articleId,
-          title: article.title,
-          coverImage: article.coverImage,
-          nickname: user.nickname,
-        };
-
-        collections.push(NewCollections);
-      }
-
-      return collections;
-    } catch (error) {
-      throw new CustomError(`${error}`, 404);
-    }
+    return collections;
   };
 
   // 책갈피 삭제하기

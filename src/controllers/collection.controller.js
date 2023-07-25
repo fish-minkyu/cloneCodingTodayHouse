@@ -25,7 +25,10 @@ class CollectionController {
   // 책갈피 불러오기
   findAllCollection = async (req, res, next) => {
     try {
-      const collections = await this.collectionsService.findAllCollection();
+      const { userId } = res.locals.user;
+      const collections = await this.collectionsService.findAllCollection(
+        userId
+      );
 
       res.status(200).json({ collecionList: collections });
     } catch (error) {
