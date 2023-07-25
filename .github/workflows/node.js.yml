@@ -40,11 +40,11 @@ jobs:
         aws-region: ap-northeast-2
 
     - name: upload to S3
-      run: aws s3 cp --region ap-northeast-2 ./CI.zip s3://todo-cicd-bucket/deploy/
+      run: aws s3 cp --region ap-northeast-2 ./CI.zip s3://house-bucket/deploy/
 
     - name: deploy with AWS codeDeploy
       run: aws deploy create-deployment
-        --application-name todo-codedeploy-app
+        --application-name house-codedeploy-app
         --deployment-config-name CodeDeployDefault.OneAtATime
-        --deployment-group-name todo-codedepoly-deployment-group
-        --s3-location bucket=todo-cicd-bucket,bundleType=zip,key=deploy/CI.zip
+        --deployment-group-name house-codedeploy-group
+        --s3-location bucket=house-bucket,bundleType=zip,key=deploy/CI.zip
