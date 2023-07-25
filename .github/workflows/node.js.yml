@@ -25,9 +25,7 @@ jobs:
       with:
         node-version: 18.x
         cache: 'npm'
-    - run: |
-        cd src
-        npm ci
+    - run: npm ci
 #     - run: npm run build --if-present
 #     - run: npm test
 
