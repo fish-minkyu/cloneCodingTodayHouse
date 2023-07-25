@@ -20,8 +20,9 @@ const jwtValidation = async (req, res, next) => {
       throw new CustomError('로그인이 필요한 기능입니다.', 403);
     }
 
-    const { email } = getAccessTokenPayload(accessToken);
-    const user = await Users.findOne({ where: { email } });
+    const { nickname } = getAccessTokenPayload(accessToken);
+    const user = await Users.findOne({ where: { nickname } });
+    console.log("user =>", user)
 
     // user 계정이 없는 경우
     if (!user) {
