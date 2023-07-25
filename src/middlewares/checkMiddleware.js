@@ -3,31 +3,29 @@ const CustomError = require('./errorMiddleware');
 require('dotenv').config();
 // const { Users } = require('../models');
 
-
 const checkMiddleware = async (req, res, next) => {
-  const { Authorization } = req.cookies
+  const { Authorization } = req.cookies;
 
   try {
     const [tokenType, accessToken] = (Authorization ?? '').split(' ');
 
-    if (!Authorization || tokenType !== "Bearer") {
-      res.locals.userId = 0
-  
-      next()
-    } else {
-      const { userId } = getAccessTokenPayload(accessToken)
+    if (!Authorization || tokenType !== 'Bearer') {
+      res.locals.userId = undefined;
 
-      res.locals.userId = userId
-  
-      next()
+      next();
+    } else {
+      const { userId } = getAccessTokenPayload(accessToken);
+
+      res.locals.userId = userId;
+
+      next();
     }
   } catch (err) {
-    next(err)
+    next(err);
   }
 };
 
-module.exports = checkMiddleware
-
+module.exports = checkMiddleware;
 
 function getAccessTokenPayload(accessToken) {
   try {

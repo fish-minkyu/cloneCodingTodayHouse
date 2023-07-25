@@ -5,7 +5,7 @@ class HomeService {
   articlesRepository = new ArticlesRepository();
   itemRepository = new ItemRepository();
 
-  getHome = async () => {
+  getHome = async (userId) => {
     const findArticleList = await this.articlesRepository.getHomeArticle(
       userId
     );

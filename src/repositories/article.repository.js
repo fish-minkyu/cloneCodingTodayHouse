@@ -1,4 +1,4 @@
-const { Articles, Users, Items } = require('../models');
+const { Articles, Users, Items, Sequelize, Collections } = require('../models');
 const { Op } = require('sequelize');
 
 // createArticle findArticle updateArticle deleteArticle
@@ -53,6 +53,7 @@ class ArticlesRepository {
     return article;
   };
 
+  // Refactoring 필요
   findAllArticle = async (whereConditions, orderCondition, userId) => {
     const allArticle = await Articles.findAll({
       attributes: [
@@ -147,12 +148,13 @@ class ArticlesRepository {
     return deleteArticleData;
   };
 
+  // Refactoring 필요
   getHomeArticle = async (userId) => {
     const articleList = await Articles.findAll({
       attributes: [
         'articleId',
         'title',
-        'coverImage',
+        'coverImage', // Sequelize CASE 문을 사용하여 collection 여부 체크
         [
           Sequelize.literal(
             `CASE WHEN Collections.articleId IS NOT NULL THEN TRUE ELSE FALSE END`
@@ -172,7 +174,6 @@ class ArticlesRepository {
           where: userId ? { userId } : null, // userId가 있으면 해당 사용자의 collection만, 없으면 모두
         },
       ],
-      limit: 12,
       order: [['createdAt', 'DESC']],
       raw: true,
     });
@@ -183,7 +184,7 @@ class ArticlesRepository {
       });
     }
 
-    return articleList;
+    return articleList.slice(0, 11);
   };
 
   findMyArticle = async (userId) => {

@@ -39,7 +39,7 @@ class ArticlesController {
       // collection 기능 추가하기
       // 책갈피용 userId 추가
       const { articleId } = req.params;
-      const { userId } = res.locals.user;
+      const userId = res.locals.userId;
       const findArticle = await this.articlesService.findArticle(
         articleId,
         userId
@@ -59,6 +59,8 @@ class ArticlesController {
         queryObject,
         userId
       );
+
+      console.log(allArticle);
 
       res.status(200).json({ articleList: allArticle });
     } catch (error) {

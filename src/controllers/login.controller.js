@@ -29,12 +29,16 @@ class LoginController {
         throw new CustomError('이메일 또는 비밀번호가 일치하지 않습니다.', 403);
 
       // accessToken 생성
-      const accessToken = jwt.sign({ 
-        userId: user.userId,
-        nickname: user.nickname
-      }, process.env.JWT, {
-        expiresIn: '3h',
-      });
+      const accessToken = jwt.sign(
+        {
+          userId: user.userId,
+          nickname: user.nickname,
+        },
+        process.env.JWT,
+        {
+          expiresIn: '3h',
+        }
+      );
 
       //// refreshToken 생성
       // const refreshToken = jwt.sign({}, 'freshKey', {expiresIn: '10h'})
@@ -46,27 +50,27 @@ class LoginController {
     }
   };
 
+  // 코드 수정
   checkout = async (req, res, next) => {
-    const { Authorization } = req.cookies
+    const { Authorization } = req.cookies;
 
     try {
-      const [tokenType, accessToken] = (Authorization ?? '').split(' ')
+      const [tokenType, accessToken] = (Authorization ?? '').split(' ');
 
-      const {userId, nickname} = jwt.verify(accessToken, process.env.JWT)
-
-      if (userId && nickname) {
+      if (!Authorization || tokenType !== 'Bearer') {
+        res.status(200).json({ success: false });
+      } else {
+        const { userId, nickname } = jwt.verify(accessToken, process.env.JWT);
         res.status(200).json({
           success: true,
           userId,
-          nickname
-        })
-      } else {
-        res.json({success: false})
+          nickname,
+        });
       }
     } catch (err) {
-      next(err)
+      next(err);
     }
-  }
+  };
 }
 
 module.exports = LoginController;

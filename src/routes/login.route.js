@@ -6,6 +6,6 @@ const authMiddleware = require('../middlewares/authMiddleware.js');
 
 // 로그인 API
 router.post('/login', loginController.login);
-router.get('/checkout', authMiddleware, loginController.checkout)
+router.get('/checkout', loginController.checkout);
 
 module.exports = router;
