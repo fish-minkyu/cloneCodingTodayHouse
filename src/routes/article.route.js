@@ -4,9 +4,10 @@ const authMiddleware = require('../middlewares/authMiddleware.js');
 const ArticleController = require('../controllers/article.controller');
 const articleController = new ArticleController();
 const multerMiddleware = require('../middlewares/multerMiddleware.js');
+const checkMiddleware = require("../middlewares/checkMiddleware.js")
 
 // Article 전체 조회 (추가예정)
-router.get('/', articleController.findAllArticle);
+router.get('/', checkMiddleware, articleController.findAllArticle);
 // Article 작성
 router.post(
   '/',
