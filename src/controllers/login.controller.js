@@ -43,7 +43,7 @@ class LoginController {
       //// refreshToken 생성
       // const refreshToken = jwt.sign({}, 'freshKey', {expiresIn: '10h'})
 
-      res.cookie('Authorization', `Bearer ${accessToken}`);
+      res.set('Authorization', `Bearer ${accessToken}`);
       res.status(200).json({ nickname: user.nickname });
     } catch (err) {
       next(err);
@@ -52,12 +52,12 @@ class LoginController {
 
   // 코드 수정
   checkout = async (req, res, next) => {
-    const { Authorization } = req.cookies;
+    const { authorization } = req.cookies;
 
     try {
-      const [tokenType, accessToken] = (Authorization ?? '').split(' ');
+      const [tokenType, accessToken] = (authorization ?? '').split(' ');
 
-      if (!Authorization || tokenType !== 'Bearer') {
+      if (!authorization || tokenType !== 'Bearer') {
         res.status(200).json({ success: false });
       } else {
         const { userId, nickname } = jwt.verify(accessToken, process.env.JWT);

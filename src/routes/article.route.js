@@ -34,12 +34,7 @@ router.post(
 router.get('/:articleId', checkMiddleware, articleController.findArticle);
 
 // Article 수정
-router.put(
-  '/:articleId',
-  authMiddleware,
-  multerMiddleware.single('coverImage'),
-  articleController.updateArticle
-);
+router.put('/:articleId', authMiddleware, articleController.updateArticle);
 // Article 삭제
 router.delete('/:articleId', authMiddleware, articleController.deleteArticle);
 

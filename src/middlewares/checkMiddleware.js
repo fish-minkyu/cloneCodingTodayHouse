@@ -4,12 +4,12 @@ require('dotenv').config();
 // const { Users } = require('../models');
 
 const checkMiddleware = async (req, res, next) => {
-  const { Authorization } = req.cookies;
+  const { authorization } = req.headers;
 
   try {
-    const [tokenType, accessToken] = (Authorization ?? '').split(' ');
+    const [tokenType, accessToken] = (authorization ?? '').split(' ');
 
-    if (!Authorization || tokenType !== 'Bearer') {
+    if (!authorization || tokenType !== 'Bearer') {
       res.locals.userId = false;
 
       next();

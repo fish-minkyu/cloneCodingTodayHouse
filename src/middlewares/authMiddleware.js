@@ -4,10 +4,10 @@ const CustomError = require('../middlewares/errorMiddleware');
 require('dotenv').config();
 
 const jwtValidation = async (req, res, next) => {
-  const { Authorization } = req.cookies;
+  const { authorization } = req.headers;
 
   try {
-    const [tokenType, accessToken] = (Authorization ?? '').split(' ');
+    const [tokenType, accessToken] = (authorization ?? '').split(' ');
     // case. Bearer타입이 아니거나 accessToken이 비었다면 error
     if (tokenType !== 'Bearer' || !accessToken)
       throw new CustomError('로그인이 필요한 기능입니다', 403);
@@ -16,17 +16,17 @@ const jwtValidation = async (req, res, next) => {
 
     // accessToken이 훼손되었다면 error
     if (!isExistAccessToken) {
-      res.clearCookie('Authorization');
+      res.headers('authorization');
       throw new CustomError('로그인이 필요한 기능입니다.', 403);
     }
 
     const { nickname } = getAccessTokenPayload(accessToken);
     const user = await Users.findOne({ where: { nickname } });
-    console.log("user =>", user)
+    console.log('user =>', user);
 
     // user 계정이 없는 경우
     if (!user) {
-      res.clearCookie('Authorization');
+      res.headers('authorization');
       throw new CustomError('등록되지 않는 이메일 또는 비밀번호입니다.', 403);
     }
 
@@ -34,7 +34,7 @@ const jwtValidation = async (req, res, next) => {
     next();
   } catch (err) {
     console.log(err);
-    res.clearCookie('Authorization');
+    res.headers('authorization');
     next(err);
   }
 };
