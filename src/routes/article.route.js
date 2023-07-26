@@ -16,7 +16,7 @@ router.post(
   articleController.createArticle
 );
 // Article item 검색
-router.post('/item', articleController.findArticleItem);
+router.get('/item', articleController.findArticleItem);
 // Article 작성 시 image 추가
 router.post(
   '/contentImage',
