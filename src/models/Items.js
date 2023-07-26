@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       coverImage: {
         allowNull: false,
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(3000),
       },
       brand: {
         allowNull: false,
@@ -37,9 +37,13 @@ module.exports = (sequelize, DataTypes) => {
       },
       price: {
         allowNull: false,
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
       },
       content: {
+        allowNull: false,
+        type: DataTypes.STRING(3000),
+      },
+      coverMainImage: {
         allowNull: false,
         type: DataTypes.STRING(1000),
       },
