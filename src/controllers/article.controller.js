@@ -130,6 +130,16 @@ class ArticlesController {
     }
   };
 
+  createCoverImage = async (req, res, next) => {
+    try {
+      const url = req.file.location;
+
+      res.status(200).json({ url });
+    } catch (error) {
+      next(error);
+    }
+  };
+
   createContentImage = async (req, res, next) => {
     try {
       const url = req.file.location;

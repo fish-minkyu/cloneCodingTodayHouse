@@ -9,15 +9,18 @@ const checkMiddleware = require('../middlewares/checkMiddleware.js');
 // Article 전체 조회 (추가예정)
 router.get('/', checkMiddleware, articleController.findAllArticle);
 // Article 작성
-router.post(
-  '/',
-  authMiddleware,
-  multerMiddleware.single('coverImage'),
-  articleController.createArticle
-);
+router.post('/', authMiddleware, articleController.createArticle);
 // Article item 검색
 router.get('/item', articleController.findArticleItem);
-// Article 작성 시 image 추가
+// Article 작성 시 coverImage 추가
+router.post(
+  '/contentImage',
+  authMiddleware,
+  multerMiddleware.single('coverImage'),
+  articleController.createCoverImage
+);
+
+// Article 작성 시 contentImage 추가
 router.post(
   '/contentImage',
   authMiddleware,
