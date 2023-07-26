@@ -9,8 +9,8 @@ class ArticlesController {
     try {
       const { userId } = res.locals.user;
       // 이미지 url 추가
-      const coverImage = req.file.location;
-      const { title, residence, area, budget, content, tags } = req.body;
+      const { title, coverImage, residence, area, budget, content, tags } =
+        req.body;
 
       const { error } = articleSchema.validate({ title, coverImage, content });
       if (error) throw new CustomError(error.details[0].message, 412);
@@ -82,13 +82,14 @@ class ArticlesController {
     }
   };
 
+  // 수정 필요
   updateArticle = async (req, res, next) => {
     try {
       const { userId } = res.locals.user;
       const { articleId } = req.params;
       // 이미지 url 추가
-      const coverImage = req.file.location;
-      const { title, residence, area, budget, content, tags } = req.body;
+      const { title, coverImage, residence, area, budget, content, tags } =
+        req.body;
 
       const { error } = articleSchema.validate({ title, coverImage, content });
       if (error) throw new CustomError(error.details[0].message, 412);

@@ -14,7 +14,7 @@ router.post('/', authMiddleware, articleController.createArticle);
 router.get('/item', articleController.findArticleItem);
 // Article 작성 시 coverImage 추가
 router.post(
-  '/contentImage',
+  '/coverImage',
   authMiddleware,
   multerMiddleware.single('coverImage'),
   articleController.createCoverImage

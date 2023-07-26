@@ -10,12 +10,13 @@ const routes = require('./src/routes/index.route');
 dotenv.config();
 app.use(
   cors({
-    origin: '*',
+    origin: true,
     // [
     //   'https://escapediary-fe-snowy.vercel.app',
     //   'https://escapediary-fe.vercel.app',
     // ],
     credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   })
 );
 
