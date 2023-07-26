@@ -5,7 +5,8 @@ class HomeController {
 
   getHome = async (req, res, next) => {
     try {
-      const homepage = await this.homeService.getHome();
+      const userId = res.locals.userId;
+      const homepage = await this.homeService.getHome(userId);
 
       res.status(200).json({
         articleList: homepage.articleList,

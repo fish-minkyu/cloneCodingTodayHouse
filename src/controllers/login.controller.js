@@ -3,6 +3,7 @@ const { loginSchema } = require('../middlewares/validationMiddleware');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const CustomError = require('../middlewares/errorMiddleware');
+require('dotenv').config();
 
 class LoginController {
   loginService = new LoginService();
@@ -28,13 +29,44 @@ class LoginController {
         throw new CustomError('이메일 또는 비밀번호가 일치하지 않습니다.', 403);
 
       // accessToken 생성
-      const accessToken = jwt.sign({ email }, 'secretKey', { expiresIn: '1h' });
+      const accessToken = jwt.sign(
+        {
+          userId: user.userId,
+          nickname: user.nickname,
+        },
+        process.env.JWT,
+        {
+          expiresIn: '3h',
+        }
+      );
 
       //// refreshToken 생성
       // const refreshToken = jwt.sign({}, 'freshKey', {expiresIn: '10h'})
 
       res.cookie('Authorization', `Bearer ${accessToken}`);
       res.status(200).json({ nickname: user.nickname });
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  // 코드 수정
+  checkout = async (req, res, next) => {
+    const { Authorization } = req.cookies;
+
+    try {
+      const [tokenType, accessToken] = (Authorization ?? '').split(' ');
+
+      if (!Authorization || tokenType !== 'Bearer') {
+        res.status(200).json({ success: false });
+      } else {
+        const { userId, nickname } = jwt.verify(accessToken, process.env.JWT);
+        res.status(200).json({
+          success: true,
+          userId,
+          nickname,
+        });
+      }
     } catch (err) {
       next(err);
     }

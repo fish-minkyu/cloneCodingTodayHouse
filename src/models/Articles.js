@@ -41,7 +41,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING(1000),
       },
       residence: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
       },
       area: {
         type: DataTypes.INTEGER,

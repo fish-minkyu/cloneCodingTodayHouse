@@ -2,10 +2,10 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const development = {
-  username: process.env.MYSQL_AWS_USERNAME,
-  password: process.env.MYSQL_AWS_PASSWORD,
-  database: process.env.MYSQL_AWS_DATABASE,
-  host: process.env.MYSQL_AWS_HOST,
+  username: 'root',
+  password: '4321aaaa',
+  database: 'house_db',
+  host: 'house-database.cegizh8rodio.ap-northeast-2.rds.amazonaws.com',
   dialect: 'mysql',
 };
 const test = {

@@ -1,10 +1,12 @@
 const ArticlesRepository = require('../repositories/article.repository');
+const CollectionRepository = require('../repositories/collection.repository');
 const CustomError = require('../middlewares/errorMiddleware');
 const { Op } = require('sequelize');
 const { articleSchema } = require('../middlewares/validationMiddleware');
 
 class ArticlesService {
   articlesRepository = new ArticlesRepository();
+  collectionRepository = new CollectionRepository();
 
   // article 생성하기
   createArticle = async (
@@ -37,30 +39,49 @@ class ArticlesService {
   };
 
   // article 하나 조회
-  findArticle = async (articleId) => {
+  findArticle = async (articleId, userId) => {
     const findArticle = await this.articlesRepository.findArticle(articleId);
     if (!findArticle) throw new CustomError('집들이를 찾을 수 없습니다.', 404);
+
+    let findOneCollection = false;
+
+    //collection 찾기
+    if (!userId) {
+      findOneCollection = false;
+    } else {
+      findOneCollection = await this.collectionRepository.findOneCollection(
+        articleId,
+        userId
+      );
+    }
 
     //string 되어있는 tags 객체화
     const objectTags = JSON.parse(findArticle.tags);
 
     return {
       articleId: findArticle.articleId,
-      userId: findArticle.userId,
+      nickname: findArticle['User.nickname'],
       title: findArticle.title,
       coverImage: findArticle.coverImage,
       residence: findArticle.residence,
       area: findArticle.area,
       budget: findArticle.budget,
       content: findArticle.content,
+      collection: findOneCollection,
       tags: objectTags,
     };
   };
 
   // article 전체 조회(조건 추가)
-  findAllArticle = async (queryObject) => {
+  findAllArticle = async (queryObject, userId) => {
     // 조건 설정 객체
     let whereConditions = {};
+
+    // page 값이 1 미만인 경우
+    if (queryObject.page < 1) throw new Error(`page는 1 이상 입력해주세요.`);
+
+    // 무한 스크롤용 page 받기
+    const page = parseInt(queryObject.page) || 1;
 
     // query filter
     if (queryObject.query) {
@@ -105,7 +126,9 @@ class ArticlesService {
 
     const allArticle = await this.articlesRepository.findAllArticle(
       whereConditions,
-      orderCondition
+      orderCondition,
+      userId,
+      page
     );
 
     return allArticle.map((article) => {
@@ -114,6 +137,7 @@ class ArticlesService {
         title: article.title,
         coverImage: article.coverImage,
         nickname: article['User.nickname'],
+        collection: article.collection,
       };
     });
   };
@@ -156,6 +180,20 @@ class ArticlesService {
   ) => {
     // tags String화
     const stringTags = JSON.stringify(tags);
+
+    const existArticle = await this.articlesRepository.findArticle(articleId);
+    if (!existArticle) {
+      throw new Error('Article이 존재하지 않습니다.', 404);
+    }
+
+    const validateArticle = await this.articlesRepository.findArticle(
+      articleId,
+      userId
+    );
+    if (!validateArticle) {
+      throw new Error('Article 수정 권한이 없습니다.', 403);
+    }
+
     const updateArticleData = await this.articlesRepository.updateArticle(
       articleId,
       userId,
@@ -172,6 +210,18 @@ class ArticlesService {
 
   // article 삭제하기
   deleteArticle = async (articleId, userId) => {
+    const existArticle = await this.articlesRepository.findArticle(articleId);
+    if (!existArticle) {
+      throw new Error('Article이 존재하지 않습니다.', 404);
+    }
+
+    const validateArticle = await this.articlesRepository.findArticle(
+      articleId,
+      userId
+    );
+    if (!validateArticle) {
+      throw new Error('Article 삭제 권한이 없습니다.', 403);
+    }
     const deleteArticleData = await this.articlesRepository.deleteArticle(
       articleId,
       userId

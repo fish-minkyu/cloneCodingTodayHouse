@@ -5,9 +5,21 @@ class HomeService {
   articlesRepository = new ArticlesRepository();
   itemRepository = new ItemRepository();
 
-  getHome = async () => {
-    const articleList = await this.articlesRepository.getHomeArticle();
+  getHome = async (userId) => {
+    const findArticleList = await this.articlesRepository.getHomeArticle(
+      userId
+    );
     const itemList = await this.itemRepository.getHomeItem();
+
+    const articleList = findArticleList.map((article) => {
+      return {
+        articleId: article.articleId,
+        title: article.title,
+        coverImage: article.coverImage,
+        nickname: article['User.nickname'],
+        collection: article.collection,
+      };
+    });
 
     return {
       articleList,

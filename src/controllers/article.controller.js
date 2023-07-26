@@ -1,4 +1,6 @@
 const ArticlesService = require('../services/article.service');
+const CustomError = require('../middlewares/errorMiddleware');
+const { articleSchema } = require('../middlewares/validationMiddleware');
 
 class ArticlesController {
   articlesService = new ArticlesService();
@@ -6,8 +8,12 @@ class ArticlesController {
   createArticle = async (req, res, next) => {
     try {
       const { userId } = res.locals.user;
-      const { title, coverImage, residence, area, budget, content, tags } =
-        req.body;
+      // 이미지 url 추가
+      const coverImage = req.file.location;
+      const { title, residence, area, budget, content, tags } = req.body;
+
+      const { error } = articleSchema.validate({ title, coverImage, content });
+      if (error) throw new CustomError(error.details[0].message, 412);
 
       const createArticle = await this.articlesService.createArticle(
         userId,
@@ -30,18 +36,31 @@ class ArticlesController {
 
   findArticle = async (req, res, next) => {
     try {
+      // collection 기능 추가하기
+      // 책갈피용 userId 추가
       const { articleId } = req.params;
-      const findArticle = await this.articlesService.findArticle(articleId);
-      res.status(200).json(findArticle);
+      const userId = res.locals.userId;
+      const findArticle = await this.articlesService.findArticle(
+        articleId,
+        userId
+      );
+      res.status(200).json({ findArticle });
     } catch (error) {
       next(error);
     }
   };
 
+  // collection 기능 추가
   findAllArticle = async (req, res, next) => {
     try {
       const queryObject = req.query;
-      const allArticle = await this.articlesService.findAllArticle(queryObject);
+      const userId = res.locals.userId;
+      const allArticle = await this.articlesService.findAllArticle(
+        queryObject,
+        userId
+      );
+
+      console.log(allArticle);
 
       res.status(200).json({ articleList: allArticle });
     } catch (error) {
@@ -49,10 +68,10 @@ class ArticlesController {
     }
   };
 
-  // item 검색(무한 스크롤 적용)
+  // item 검색
   findArticleItem = async (req, res, next) => {
     try {
-      const { itemName, page } = req.body;
+      const { itemName, page } = req.query; // req.body -> req.query 수정
       const articleItem = await this.articlesService.findArticleItem(
         itemName,
         page
@@ -67,14 +86,18 @@ class ArticlesController {
     try {
       const { userId } = res.locals.user;
       const { articleId } = req.params;
-      const { title, coverimage, residence, area, budget, content, tags } =
-        req.body;
+      // 이미지 url 추가
+      const coverImage = req.file.location;
+      const { title, residence, area, budget, content, tags } = req.body;
+
+      const { error } = articleSchema.validate({ title, coverImage, content });
+      if (error) throw new CustomError(error.details[0].message, 412);
 
       const updateArticle = await this.articlesService.updateArticle(
         articleId,
         userId,
         title,
-        coverimage,
+        coverImage,
         residence,
         area,
         budget,
@@ -102,6 +125,16 @@ class ArticlesController {
       res
         .status(201)
         .json({ success: true, message: 'Article 삭제에 성공하였습니다.' });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  createContentImage = async (req, res, next) => {
+    try {
+      const url = req.file.location;
+
+      res.status(200).json({ url });
     } catch (error) {
       next(error);
     }
