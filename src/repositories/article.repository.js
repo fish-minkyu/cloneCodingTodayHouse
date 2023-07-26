@@ -53,8 +53,11 @@ class ArticlesRepository {
     return article;
   };
 
-  // Refactoring 필요
-  findAllArticle = async (whereConditions, orderCondition, userId) => {
+  // Refactoring 필요 (무한스크롤 구현)
+  findAllArticle = async (whereConditions, orderCondition, userId, page) => {
+    // 0. 페이지 수와 limit, offset을 정해줍니다.
+    const limit = 12;
+    const offset = (page - 1) * 12;
     // 첫 번째 쿼리: 원하는 글들을 가져옵니다.
     const articles = await Articles.findAll({
       attributes: ['articleId', 'title', 'coverImage'],
@@ -64,7 +67,8 @@ class ArticlesRepository {
           attributes: ['nickname'],
         },
       ],
-      limit: 12,
+      limit: limit,
+      offset: offset,
       where: whereConditions,
       order: orderCondition,
       raw: true,
