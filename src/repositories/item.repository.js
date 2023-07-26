@@ -29,7 +29,7 @@ class ItemsRepository {
   // 사용자 쿼리로 상품 검색
   findItemsByQuery = async (query, page) => {
     const itemList = await Items.findAll({
-      attributes: ['itemId', 'itemname', 'coverImage', 'price'],
+      attributes: ['itemId', 'itemName', 'coverImage', 'price'],
       where: {
         itemName: {
           [Op.like]: `%${query}%`,
