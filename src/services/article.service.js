@@ -55,8 +55,6 @@ class ArticlesService {
       );
     }
 
-    console.log(findOneCollection);
-
     //string 되어있는 tags 객체화
     const objectTags = JSON.parse(findArticle.tags);
 
@@ -78,6 +76,12 @@ class ArticlesService {
   findAllArticle = async (queryObject, userId) => {
     // 조건 설정 객체
     let whereConditions = {};
+
+    // page 값이 1 미만인 경우
+    if (queryObject.page < 1) throw new Error(`page는 1 이상 입력해주세요.`);
+
+    // 무한 스크롤용 page 받기
+    const page = parseInt(queryObject.page) || 1;
 
     // query filter
     if (queryObject.query) {
@@ -123,7 +127,8 @@ class ArticlesService {
     const allArticle = await this.articlesRepository.findAllArticle(
       whereConditions,
       orderCondition,
-      userId
+      userId,
+      page
     );
 
     return allArticle.map((article) => {
