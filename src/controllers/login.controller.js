@@ -52,7 +52,7 @@ class LoginController {
 
   // 코드 수정
   checkout = async (req, res, next) => {
-    const { authorization } = req.cookies;
+    const { authorization } = req.headers;
 
     try {
       const [tokenType, accessToken] = (authorization ?? '').split(' ');
