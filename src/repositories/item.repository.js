@@ -48,7 +48,7 @@ class ItemsRepository {
 
   getHomeItem = async () => {
     const itemList = await Items.findAll({
-      attributes: ['itemId', 'itemName', 'coverImage', 'price', 'brand'],
+      attributes: ['itemId', 'itemName', 'coverMainImage', 'price', 'brand'],
       limit: 10,
     });
     return itemList;
