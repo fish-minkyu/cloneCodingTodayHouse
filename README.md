@@ -2,7 +2,6 @@
 ### 프로젝트 소개
 - 프로젝트 기간 : 2023.07.21 ~ 2023.07.27
 - 프로젝트 설명 : 클론코딩 - 웹사이트 '오늘의집'
-<br><br>
 ### 🙏 팀원소개
   |  멤버  |        역할      | GitHub |
   | :----: | :-------------: | :-------------: |
@@ -11,8 +10,7 @@
   | 어민규 | API / 회원가입 / 로그인 / MULTER |https://github.com/fish-minkyu|
   | 김승훈 | API / MULTER |https://github.com/Obligedwalnut|
   | 신성윤 | 검색 관련 기능 / 크롤링 |https://github.com/since1630|
-  
-<br><br>
+
 ### 🎨 개발 환경
 <div align="center">
 <p style="font-size:20px;">📚 Tech Stack 📚</p>
