@@ -41,7 +41,7 @@ class ItemsRepository {
   };
 
   findItemByItemId = async (itemId) => {
-    const itemList = await Items.findOne({ where: { itemId } });
+    const itemList = await Items.findOne({ where: { itemId }, raw: true });
 
     return itemList;
   };
