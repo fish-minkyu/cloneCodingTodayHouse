@@ -5,7 +5,7 @@ const { Op } = require('sequelize');
 class ItemsRepository {
   findItems = async () => {
     const items = await Items.findAll({
-      attributes: ['itemId', 'itemName', 'coverImage', 'price'],
+      attributes: ['itemId', 'itemName', 'coverMainImage', 'price'],
       order: [['itemId', 'ASC']],
     });
 
@@ -18,7 +18,7 @@ class ItemsRepository {
     const offset = (page - 1) * limit;
     const itemList = await Items.findAll({
       where: { category: query },
-      attributes: ['itemId', 'itemName', 'coverImage', 'price'],
+      attributes: ['itemId', 'itemName', 'coverMainImage', 'price'],
       limit: limit,
       offset: offset,
     });
@@ -29,7 +29,7 @@ class ItemsRepository {
   // 사용자 쿼리로 상품 검색
   findItemsByQuery = async (query, page) => {
     const itemList = await Items.findAll({
-      attributes: ['itemId', 'itemName', 'coverImage', 'price'],
+      attributes: ['itemId', 'itemName', 'coverMainImage', 'price'],
       where: {
         itemName: {
           [Op.like]: `%${query}%`,

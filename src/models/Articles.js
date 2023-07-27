@@ -51,10 +51,10 @@ module.exports = (sequelize, DataTypes) => {
       },
       content: {
         allowNull: false,
-        type: DataTypes.STRING(1000),
+        type: DataTypes.STRING(7000),
       },
       tags: {
-        type: DataTypes.STRING(1000),
+        type: DataTypes.STRING(7000),
       },
       createdAt: {
         allowNull: false,
